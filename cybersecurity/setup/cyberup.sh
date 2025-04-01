@@ -15,7 +15,7 @@ display_ASCII_header() {
     echo " ░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░        "
     echo "  ░▒▓██████▓▒░   ░▒▓█▓▒░   ░▒▓███████▓▒░░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░        "
     echo -e "\n"
-    echo -e "                  CYBERUP, v1.2, by Keith Michelangelo Fernandez, 2024                     \n"
+    echo -e "                           CYBERUP, v1.2, by SATANMYNINJAS, 2025                    \n"
     echo -e "                                      MIT LICENSE\n\n"
     echo -e " This script automates the installation of essential tools and utilities for a fully equipped"
     echo -e " cybersecurity, ethical hacking, reverse engineering, and forensics workstation on Arch Linux."
@@ -46,8 +46,8 @@ install_ethical_hacking_environment() {
     BASE_PACKAGES=(
         base-devel git wget curl unzip zip p7zip
         htop neofetch tmux fish fzf fd ripgrep btop
-        zsh-autosuggestions binutils nasm testdisk 
-        iputils traceroute bind reflector
+        binutils nasm testdisk iputils traceroute bind 
+        reflector screen
     )
 
     DEV_TOOLS=(
@@ -110,7 +110,7 @@ install_ethical_hacking_environment() {
         discord_arch_electron wordlists social-engineer-toolkit
         spiderfoot burpsuite recon-ng dnsprobe chkrootkit
         autopsy gobuster zenmap responder retdec extundelete guymager
-        crunch pandoc-bin
+        crunch
     )
 
     reflector -p https -c US --sort rate --verbose
