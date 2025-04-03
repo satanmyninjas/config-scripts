@@ -1,0 +1,353 @@
+[BUSY] Adding execute permissions to strap.sh file.
+[1m[32m[+] installing blackarch keyring...(B[m
+loading packages...
+resolving dependencies...
+looking for conflicting packages...
+
+Packages (1) blackarch-keyring-20180925-5
+
+Total Installed Size:  0.02 MiB
+Net Upgrade Size:      0.00 MiB
+
+:: Proceed with installation? [Y/n] 
+checking keyring...
+checking package integrity...
+loading package files...
+checking for file conflicts...
+:: Processing package changes...
+reinstalling blackarch-keyring...
+==> Appending keys from blackarch.gpg...
+==> Updating trust database...
+gpg: next trustdb check due at 2025-06-16
+:: Running post-transaction hooks...
+(1/1) Arming ConditionNeedsUpdate...
+[1m[32m==>(B[m[1m Appending keys from archlinux.gpg...(B[m
+[1m[32m==>(B[m[1m Appending keys from blackarch.gpg...(B[m
+[1m[32m==>(B[m[1m Updating trust database...(B[m
+
+[1m[32m[+] keyring installed successfully(B[m
+[1m[32m[+] updating package databases(B[m
+:: Synchronizing package databases...
+ core-testing downloading...
+ core downloading...
+ extra-testing downloading...
+ extra downloading...
+ multilib-testing downloading...
+ multilib downloading...
+ blackarch downloading...
+[1m[32m[+] installing blackarch-officials meta-package...(B[m
+resolving dependencies...
+:: There are 2 providers available for java-runtime=11:
+:: Repository extra
+   1) jdk11-openjdk  2) jre11-openjdk
+
+Enter a number (default=1): 
+:: The following package cannot be upgraded due to unresolvable dependencies:
+      blackarch-officials
+
+:: Do you want to skip the above package for this upgrade? [y/N] 
+:: unable to satisfy dependency 'ophcrack' required by blackarch-officials
+:: unable to satisfy dependency 'swaks' required by blackarch-officials
+[1m[32m[+] BlackArch Linux is ready!(B[m
+[BUSY] Enabling multilib repository...
+[BUSY] Updating package databases...
+:: Synchronizing package databases...
+ core-testing downloading...
+ core downloading...
+ extra-testing downloading...
+ extra downloading...
+ multilib-testing downloading...
+ multilib downloading...
+ blackarch downloading...
+:: Starting full system upgrade...
+ there is nothing to do
+
+[ :3 ] BlackArch keyring setup complete!
+
+[H[2J[3J
+
+
+  ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓████████▓▒░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░  
+ ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ 
+ ░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ 
+ ░▒▓█▓▒░       ░▒▓██████▓▒░░▒▓███████▓▒░░▒▓██████▓▒░ ░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░  
+ ░▒▓█▓▒░         ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░        
+ ░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░        
+  ░▒▓██████▓▒░   ░▒▓█▓▒░   ░▒▓███████▓▒░░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░        
+
+
+                        CYBERUP, v1.2.2, by SATANMYNINJAS, 2025                    
+
+                                      MIT LICENSE
+
+
+ This script automates the installation of essential tools and utilities for a fully equipped
+ cybersecurity, ethical hacking, reverse engineering, and forensics workstation on Arch Linux.
+ Designed with efficiency and comprehensiveness in mind, it ensures your system is ready for
+ coding, penetration testing, and forensic investigations with a single execution.
+
+      CYBERUP Arch Linux Workstation Setup Script, Version 1.1
+  ===================================================================
+  [1] Install BlackArch keyring only
+  [2] Install ethical hacking environment only
+  [3] Install both BlackArch keyring and ethical hacking environment :3
+  [4] Exit :(
+  ===================================================================
+
+
+[BUSY] Setting up BlackArch keyring and downloading bootstrap...
+
+[BUSY] Installing ethical hacking environment...
+[ (0_o") ]You might wanna grab a coffee. This can take a bit.
+
+
+[BUSY] Sorting fresh Arch mirrors...
+################################################################################
+################# Arch Linux mirrorlist generated by Reflector #################
+################################################################################
+
+# With:       reflector -p https -c US --sort rate --verbose
+# When:       2025-04-03 20:37:44 UTC
+# From:       https://archlinux.org/mirrors/status/json/
+# Retrieved:  2025-04-03 20:36:52 UTC
+# Last Check: 2025-04-03 20:20:25 UTC
+
+Server = https://mirror.zackmyers.io/archlinux/$repo/os/$arch
+Server = https://mirror.pilotfiber.com/archlinux/$repo/os/$arch
+Server = https://us.mirrors.cicku.me/archlinux/$repo/os/$arch
+Server = https://arch.mirror.constant.com/$repo/os/$arch
+Server = https://mirror.hasphetica.win/archlinux/$repo/os/$arch
+Server = https://mirrors.iu13.net/archlinux/$repo/os/$arch
+Server = https://iad.mirrors.misaka.one/archlinux/$repo/os/$arch
+Server = https://forksystems.mm.fcix.net/archlinux/$repo/os/$arch
+Server = https://mirror.umd.edu/archlinux/$repo/os/$arch
+Server = https://nnenix.mm.fcix.net/archlinux/$repo/os/$arch
+Server = https://mirrors.rit.edu/archlinux/$repo/os/$arch
+Server = https://mirror.colonelhosting.com/archlinux/$repo/os/$arch
+Server = https://mirror.adectra.com/archlinux/$repo/os/$arch
+Server = https://mirror.wdc1.us.leaseweb.net/archlinux/$repo/os/$arch
+Server = https://mirrors.bloomu.edu/archlinux/$repo/os/$arch
+Server = https://mirror.pit.teraswitch.com/archlinux/$repo/os/$arch
+Server = https://mirror.ette.biz/archlinux/$repo/os/$arch
+Server = https://plug-mirror.rcac.purdue.edu/archlinux/$repo/os/$arch
+Server = https://southfront.mm.fcix.net/archlinux/$repo/os/$arch
+Server = https://ord.mirror.rackspace.com/archlinux/$repo/os/$arch
+Server = https://ohioix.mm.fcix.net/archlinux/$repo/os/$arch
+Server = https://mnvoip.mm.fcix.net/archlinux/$repo/os/$arch
+Server = https://arch.mirror.k0.ae/$repo/os/$arch
+Server = https://volico.mm.fcix.net/archlinux/$repo/os/$arch
+Server = https://nocix.mm.fcix.net/archlinux/$repo/os/$arch
+Server = https://mirror.clarkson.edu/archlinux/$repo/os/$arch
+Server = https://mirrors.kernel.org/archlinux/$repo/os/$arch
+Server = https://arch-mirror.brightlight.today/$repo/os/$arch
+Server = https://america.mirror.pkgbuild.com/$repo/os/$arch
+Server = https://irltoolkit.mm.fcix.net/archlinux/$repo/os/$arch
+Server = https://codingflyboy.mm.fcix.net/archlinux/$repo/os/$arch
+Server = https://ziply.mm.fcix.net/archlinux/$repo/os/$arch
+Server = https://mirrors.xtom.com/archlinux/$repo/os/$arch
+Server = https://dfw.mirror.rackspace.com/archlinux/$repo/os/$arch
+Server = https://mirror.fcix.net/archlinux/$repo/os/$arch
+Server = https://opencolo.mm.fcix.net/archlinux/$repo/os/$arch
+Server = https://mirror.akane.network/archmirror/$repo/os/$arch
+Server = https://repo.ialab.dsu.edu/archlinux/$repo/os/$arch
+Server = https://ridgewireless.mm.fcix.net/archlinux/$repo/os/$arch
+Server = https://arch.hu.fo/archlinux/$repo/os/$arch
+Server = https://mirror.lty.me/archlinux/$repo/os/$arch
+Server = https://mirrors.ocf.berkeley.edu/archlinux/$repo/os/$arch
+Server = https://mirrors.lug.mtu.edu/archlinux/$repo/os/$arch
+Server = https://mirrors.smeal.xyz/arch-linux/$repo/os/$arch
+Server = https://mirrors.mit.edu/archlinux/$repo/os/$arch
+Server = https://archmirror1.octyl.net/$repo/os/$arch
+Server = https://arch.miningtcup.me/$repo/os/$arch
+Server = https://losangeles.mirror.pkgbuild.com/$repo/os/$arch
+Server = https://mirror.arizona.edu/archlinux/$repo/os/$arch
+Server = https://arch-mirror.marcusspencer.xyz:4443/archlinux/$repo/os/$arch
+Server = https://mirrors.sonic.net/archlinux/$repo/os/$arch
+Server = https://mirror.sfo12.us.leaseweb.net/archlinux/$repo/os/$arch
+Server = https://us.arch.niranjan.co/$repo/os/$arch
+Server = https://ftp.osuosl.org/pub/archlinux/$repo/os/$arch
+Server = https://arch.goober.cloud/$repo/os/$arch
+Server = https://zxcvfdsa.com/arch/$repo/os/$arch
+Server = https://mirror.theash.xyz/arch/$repo/os/$arch
+Server = https://mirrors.bjg.at/arch/$repo/os/$arch
+Server = https://us-mnz.soulharsh007.dev/archlinux/$repo/os/$arch
+
+[ :3 ] Done sorting mirrors.
+
+
+[BUSY] Installing a fuckload of packages...
+ there is nothing to do
+ there is nothing to do
+resolving dependencies...
+looking for conflicting packages...
+:: rustup-1.28.1-1 and rust-1:1.86.0-1 are in conflict. Remove rust? [y/N] 
+:: rustup-1.28.1-1 and rust-1:1.86.0-1 are in conflict
+ there is nothing to do
+ there is nothing to do
+ there is nothing to do
+ there is nothing to do
+ there is nothing to do
+resolving dependencies...
+looking for conflicting packages...
+:: virtualbox-host-modules-arch-7.1.6-14 and virtualbox-host-dkms-7.1.6-2 are in conflict. Remove virtualbox-host-dkms? [y/N] 
+:: virtualbox-host-modules-arch-7.1.6-14 and virtualbox-host-dkms-7.1.6-2 are in conflict
+ there is nothing to do
+ there is nothing to do
+ there is nothing to do
+[ :3 ] Holy fuck it finished.
+
+[+] yay is already installed on the system.
+[*] Updating system packages...
+[1m[33m -> [0m[0mAvoid running yay as root/sudo.
+:: Synchronizing package databases...
+ core-testing downloading...
+ core downloading...
+ extra-testing downloading...
+ extra downloading...
+ multilib-testing downloading...
+ multilib downloading...
+ blackarch downloading...
+:: [1mSearching AUR for updates...[0m
+:: [1mSearching databases for updates...[0m
+ -> gsad-debug: local (24.1.0-1) is newer than blackarch (24.0.0-1)
+ -> gvm-libs-debug: local (22.15.1-1) is newer than blackarch (22.14.0-1)
+ -> gvmd-debug: local (24.1.2-1) is newer than blackarch (24.0.0-3)
+ -> openvas-scanner-debug: local (23.13.2-1) is newer than blackarch (23.13.1-1)
+ -> python-async-timeout: local (5.0.1-1) is newer than blackarch (4.0.3-7)
+ -> python-docx: local (1.1.2-2) is newer than blackarch (0.2.4-12)
+ -> python-ipwhois: local (1.3.0-1) is newer than blackarch (1.2.0-6)
+ -> python-mock: local (5.2.0-1) is newer than blackarch (3.0.5-14)
+ -> python-publicsuffixlist: local (1.0.2.20250319-1) is newer than blackarch (1.0.2.20250301-1)
+ -> python-pypdf2: local (2:3.0.1-1) is newer than blackarch (1:1.28.5-4)
+ -> python-rq: local (2.2-1) is newer than blackarch (2.1.0-1)
+ -> python-secure: local (1.0.0-1) is newer than blackarch (0.3.0-5)
+ -> qt5-serialbus: local (5.15.16-1) is newer than blackarch (5.15.15-1)
+ -> qt5-serialbus-debug: local (5.15.16-1) is newer than blackarch (5.15.15-1)
+ -> tcl: local (9.0.1-1) is newer than extra (8.6.16-1)
+ -> tk: local (9.0.1-1) is newer than extra (8.6.16-1)
+ -> Packages not in AUR: libretro-citra
+ -> Missing AUR Debug Packages: chkrootkit-debug  crunch-debug  dnsprobe-debug  paho-mqtt-c-debug  pandoc-bin-debug
+ -> Flagged Out Of Date AUR Packages: unityhub-beta  upd72020x-fw  wordlists
+:: 1 package to upgrade/install.
+1  aur/mkinitcpio-firmware  1.4.0-1 -> 1.5.0-1
+==> Packages to exclude: (eg: "1 2 3", "1-3", "^4" or repo name)
+ -> Excluding packages may cause partial upgrades and break systems
+==> 
+AUR Explicit (1): mkinitcpio-firmware-1.5.0-1
+:: [1mPKGBUILD up to date, skipping download: mkinitcpio-firmware[0m
+  1 mkinitcpio-firmware                      (Installed) (Build Files Exist)
+==> Packages to cleanBuild?
+==> [N]one [A]ll [Ab]ort [I]nstalled [No]tInstalled or (1 2 3, 1-3, ^4)
+==> 
+  1 mkinitcpio-firmware                      (Installed) (Build Files Exist)
+==> Diffs to show?
+==> [N]one [A]ll [Ab]ort [I]nstalled [No]tInstalled or (1 2 3, 1-3, ^4)
+==> 
+:: [1m(1/1) Parsing SRCINFO: mkinitcpio-firmware[0m
+
+[BUSY] Installing AUR packages...
+[1m[33m -> [0m[0mAvoid running yay as root/sudo.
+Sync Explicit (14): gobuster-2:367.308cf9f-1, chkrootkit-0.58b-1, retdec-2161.04df6def-3, recon-ng-1:1028.c08acee-4, spiderfoot-4.0-6, gophish-815.95618469-1, responder-4:v3.1.5.0.r4.g5451372-1, osintgram-1.3.r9.g3c61e53-5, crunch-3.6-2, burpsuite-1:2025.2.2-1, guymager-0.8.13-1, dcfldd-1.7.1-2, dnsprobe-56.7120008-2, autopsy-1:4.22.0-2
+AUR Explicit (10): social-engineer-toolkit-8.0.3-4, discord_arch_electron-0.0.90-1, simplescreenrecorder-0.4.4-3, wordlists-0.4-1, extundelete-0.2.4-4, zenmap-7.95-1, mullvad-vpn-2025.5-1, sherlock-git-r2442.7e87a88-1, phoneinfoga-bin-2.11.0-1, sddm-lain-wired-theme-0.9.1-1
+:: [1mPKGBUILD up to date, skipping download: phoneinfoga-bin[0m
+:: [1mPKGBUILD up to date, skipping download: sddm-lain-wired-theme[0m
+:: [1mPKGBUILD up to date, skipping download: simplescreenrecorder[0m
+:: [1mPKGBUILD up to date, skipping download: wordlists[0m
+:: [1mPKGBUILD up to date, skipping download: extundelete[0m
+:: [1mPKGBUILD up to date, skipping download: social-engineer-toolkit[0m
+:: [1mPKGBUILD up to date, skipping download: discord_arch_electron[0m
+:: [1mPKGBUILD up to date, skipping download: zenmap[0m
+:: [1mPKGBUILD up to date, skipping download: sherlock-git[0m
+:: [1mPKGBUILD up to date, skipping download: mullvad-vpn[0m
+ 10 mullvad-vpn                              (Build Files Exist)
+  9 simplescreenrecorder                     (Installed) (Build Files Exist)
+  8 wordlists                                (Installed) (Build Files Exist)
+  7 social-engineer-toolkit                  (Installed) (Build Files Exist)
+  6 discord_arch_electron                    (Installed) (Build Files Exist)
+  5 zenmap                                   (Installed) (Build Files Exist)
+  4 sherlock-git                             (Installed) (Build Files Exist)
+  3 phoneinfoga-bin                          (Build Files Exist)
+  2 sddm-lain-wired-theme                    (Installed) (Build Files Exist)
+  1 extundelete                              (Installed) (Build Files Exist)
+==> Packages to cleanBuild?
+==> [N]one [A]ll [Ab]ort [I]nstalled [No]tInstalled or (1 2 3, 1-3, ^4)
+==> 
+ 10 discord_arch_electron                    (Installed) (Build Files Exist)
+  9 zenmap                                   (Installed) (Build Files Exist)
+  8 sherlock-git                             (Installed) (Build Files Exist)
+  7 mullvad-vpn                              (Build Files Exist)
+  6 simplescreenrecorder                     (Installed) (Build Files Exist)
+  5 wordlists                                (Installed) (Build Files Exist)
+  4 social-engineer-toolkit                  (Installed) (Build Files Exist)
+  3 phoneinfoga-bin                          (Build Files Exist)
+  2 sddm-lain-wired-theme                    (Installed) (Build Files Exist)
+  1 extundelete                              (Installed) (Build Files Exist)
+==> Diffs to show?
+==> [N]one [A]ll [Ab]ort [I]nstalled [No]tInstalled or (1 2 3, 1-3, ^4)
+==> 
+:: [1m(1/10) Parsing SRCINFO: social-engineer-toolkit[0m
+:: [1m(2/10) Parsing SRCINFO: discord_arch_electron[0m
+:: [1m(3/10) Parsing SRCINFO: zenmap[0m
+:: [1m(4/10) Parsing SRCINFO: sherlock-git[0m
+:: [1m(5/10) Parsing SRCINFO: mullvad-vpn[0m
+:: [1m(6/10) Parsing SRCINFO: simplescreenrecorder[0m
+:: [1m(7/10) Parsing SRCINFO: wordlists[0m
+:: [1m(8/10) Parsing SRCINFO: extundelete[0m
+:: [1m(9/10) Parsing SRCINFO: phoneinfoga-bin[0m
+:: [1m(10/10) Parsing SRCINFO: sddm-lain-wired-theme[0m
+pub   ed25519 2023-06-28 [C]
+      225E40C8F1C8DEB7977ABF59F293063FECE2E8ED
+uid           [ unknown] Linus Färnstrand <linus@mullvad.net>
+sub   ed25519 2023-06-28 [A]
+sub   cv25519 2023-06-28 [E]
+sub   ed25519 2023-06-28 [S]
+
+pub   rsa4096 2019-10-01 [SC]
+      8339C7D2942EB854E3F27CE5AEE9DECFD582E984
+uid           [ unknown] David Lönnhager (code signing) <david.l@mullvad.net>
+sub   rsa4096 2019-10-01 [E]
+
+pub   ed25519 2023-05-24 [C]
+      1D0026CBD1F1858DF8DB54DFCB87E2B919A6454C
+uid           [ unknown] Oskar Nyberg <oskar@mullvad.net>
+sub   ed25519 2023-05-24 [A]
+sub   cv25519 2023-05-24 [E]
+sub   ed25519 2023-05-24 [S]
+
+pub   ed25519 2023-02-16 [SC]
+      049F58CC80D9C78452151EE6EF0CCD68D0E5B9B1
+uid           [ unknown] Emīls Piņķis <emils@mullvad.net>
+sub   ed25519 2023-02-16 [S]
+sub   ed25519 2023-02-16 [A]
+sub   cv25519 2023-02-16 [E]
+
+resolving dependencies...
+looking for conflicting packages...
+
+Packages (30) python-cherrypy-cors-1.7.0-3  python-future-1.0.0-2  python-geographiclib-2.0-6  python-geopy-2.4.1-4  python-gnureadline-8.2.13-1  python-instagram-private-api-1.6.0.0-4  python-ipaddr-2.2.0-9  python-jsonrpclib-pelix-0.4.3.3-2  python-olefile-0.47-4  python-prettytable-3.15.1-1  python-python-docx-0.8.11-5  python-python-pptx-0.6.23-2  python-python-whois-0.8.0-4  python-pytsk3-20231007-3  python-slowaes-0.1a1-12  sleuthkit-java-4.12.1-3  autopsy-1:4.22.0-2  burpsuite-1:2025.2.2-1  chkrootkit-0.58b-1  crunch-3.6-2  dcfldd-1.7.1-2  dnsprobe-56.7120008-2  gobuster-2:367.308cf9f-1  gophish-815.95618469-1  guymager-0.8.13-1  osintgram-1.3.r9.g3c61e53-5  recon-ng-1:1028.c08acee-4  responder-4:v3.1.5.0.r4.g5451372-1  retdec-2161.04df6def-3  spiderfoot-4.0-6
+
+Total Installed Size:  3617.73 MiB
+Net Upgrade Size:      1832.48 MiB
+
+:: Proceed with installation? [Y/n] 
+checking keyring...
+checking package integrity...
+loading package files...
+checking for file conflicts...
+Errors occurred, no packages were upgraded.
+[ :3 ] Done installing all AUR packages.
+
+[BUSY] Updating system and downloading fonts...
+:: Synchronizing package databases...
+ core-testing downloading...
+ core downloading...
+ extra-testing downloading...
+ extra downloading...
+ multilib-testing downloading...
+ multilib downloading...
+ blackarch downloading...
+:: Starting full system upgrade...
+ there is nothing to do
+
+[ :3c ] Ethical hacking environment setup complete!
+
