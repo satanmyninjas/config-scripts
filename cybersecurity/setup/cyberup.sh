@@ -1,6 +1,12 @@
 #!/bin/bash
 
-VERSION=1.2.1
+VERSION=1.2.2
+export YAYFLAGS="--noconfirm --nocleanmenu --nodiffmenu --removemake"
+
+if [ "$EUID" -eq 0 ]; then
+    echo "[ :( )] Do not run this script as root. Please run as a regular user."
+    exit 1
+fi
 
 display_ASCII_header() {
 
@@ -13,13 +19,38 @@ display_ASCII_header() {
     echo " ░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░        "
     echo "  ░▒▓██████▓▒░   ░▒▓█▓▒░   ░▒▓███████▓▒░░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░        "
     echo -e "\n"
-    echo -e "                           CYBERUP, v1.2, by SATANMYNINJAS, 2025                    \n"
+    echo -e "                        CYBERUP, v$VERSION, by SATANMYNINJAS, 2025                    \n"
     echo -e "                                      MIT LICENSE\n\n"
     echo -e " This script automates the installation of essential tools and utilities for a fully equipped"
     echo -e " cybersecurity, ethical hacking, reverse engineering, and forensics workstation on Arch Linux."
     echo -e " Designed with efficiency and comprehensiveness in mind, it ensures your system is ready for"
     echo -e " coding, penetration testing, and forensic investigations with a single execution.\n"
+}
 
+# Function to check yay.
+check_yay() {
+    if command -v yay >/dev/null 2>&1; then
+        echo "[+] yay is already installed on the system."
+        YAY_CMD="yay"
+    else
+        echo "[!] yay is not installed."
+        read -p "Do you want to run yay from /tmp (if available)? [y/N] " choice
+        case "$choice" in
+            y|Y )
+                if [ -x "/tmp/yay" ]; then
+                    echo "[+] Using yay from /tmp."
+                    YAY_CMD="/tmp/yay"
+                else
+                    echo "[!] yay not found in /tmp either. Please install yay manually first."
+                    exit 1
+                fi
+                ;;
+            * )
+                echo "Aborting. Please install yay first."
+                exit 1
+                ;;
+        esac
+    fi
 }
 
 install_blackarch_keyring() {
@@ -37,11 +68,13 @@ install_blackarch_keyring() {
     echo "[BUSY] Updating package databases..."
     sudo pacman -Syu --noconfirm
 
-    echo -e "\n[ :3 ] BlackArch keyring setup complete!\n"
+    echo -e "\n[ :3 ] BlackArch keyring setup complete!"
+    echo -e "[BUSY] Cleaning up and removing strap.sh...\n"
+    rm strap.sh
 
 install_ethical_hacking_environment() {
     echo -e "\n[BUSY] Installing ethical hacking environment..."
-    echo -e "[ (0_o\") ]You might wanna grab a coffee. This can take a bit.\n"
+    echo -e "[ (0_o\") ]You might wanna grab a coffee. This can take a bit...\n"
 
     BASE_PACKAGES=(
         base-devel git wget curl unzip zip p7zip
@@ -111,7 +144,7 @@ install_ethical_hacking_environment() {
         spiderfoot burpsuite recon-ng dnsprobe chkrootkit
         autopsy gobuster zenmap responder retdec extundelete guymager
         crunch sherlock-git phoneinfoga-bin osintgram dcfldd
-	simplescreenrecorder
+        simplescreenrecorder
     )
 
     # Modifying Arch Linux mirros to be set to the US, checking
@@ -137,16 +170,15 @@ install_ethical_hacking_environment() {
     sudo pacman -S --noconfirm --needed "${FONTS_THEMES[@]}"
     echo -e "[ :3 ] Holy fuck it finished.\n"
 
-    # Installing yay and then AUR packages.
-    if ! command -v yay &>/dev/null; then
-        echo -e "\n[BUSY] Installing 'yay' for AUR package management...\n"
-        git clone https://aur.archlinux.org/yay.git /tmp/yay
-        (cd /tmp/yay && makepkg -si --noconfirm)
-        rm -rf /tmp/yay
-    fi
+    # Check yay availability.
+    check_yay
+
+    # Begin your package installation and update logic using $YAY_CMD.
+    echo "[BUSY] Updating AUR packages..."
+    $YAY_CMD -Syu --noconfirm
 
     echo -e "\n[BUSY] Installing AUR packages..."
-    yay -S --noconfirm "${AUR_PACKAGES[@]}"
+    $YAY_CMD $YAYFLAGS -S "${AUR_PACKAGES[@]}"
     echo -e "[ :3 ] Done installing all AUR packages.\n"
 
     echo -e "[BUSY] Updating system and downloading fonts..."
@@ -166,8 +198,8 @@ while true; do
     echo "  ==================================================================="
     echo "  [1] Install BlackArch keyring only"
     echo "  [2] Install ethical hacking environment only"
-    echo "  [3] Install both BlackArch keyring and ethical hacking environment :3""
-    echo -e "  [4] Exit :\("
+    echo "  [3] Install both BlackArch keyring and ethical hacking environment :3"
+    echo -e "  [4] Exit :("
     echo -e "  ===================================================================\n"
     read -rp " [?] Choose an option [1-4]: " choice
 
