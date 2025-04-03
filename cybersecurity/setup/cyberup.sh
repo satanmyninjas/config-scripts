@@ -1,10 +1,10 @@
 #!/bin/bash
 
 VERSION=1.2.2
-export YAYFLAGS="--noconfirm --nocleanmenu --nodiffmenu --removemake"
+export YAYFLAGS="--noconfirm --quiet --refresh --removemake --cleanafter"
 
 if [ "$EUID" -eq 0 ]; then
-    echo "[ :( )] Do not run this script as root. Please run as a regular user."
+    echo "[ :( ] Do not run this script as root. Please run as a regular user."
     exit 1
 fi
 
@@ -33,20 +33,20 @@ check_yay() {
         echo "[+] yay is already installed on the system."
         YAY_CMD="yay"
     else
-        echo "[!] yay is not installed."
+        echo "[ :( ] yay is not installed."
         read -p "Do you want to run yay from /tmp (if available)? [y/N] " choice
         case "$choice" in
             y|Y )
                 if [ -x "/tmp/yay" ]; then
-                    echo "[+] Using yay from /tmp."
+                    echo "[BUSY] Using yay from /tmp."
                     YAY_CMD="/tmp/yay"
                 else
-                    echo "[!] yay not found in /tmp either. Please install yay manually first."
+                    echo "[ :( ] yay not found in /tmp either. Please install yay manually first."
                     exit 1
                 fi
                 ;;
             * )
-                echo "Aborting. Please install yay first."
+                echo "[ :( ] Aborting. Please install yay first."
                 exit 1
                 ;;
         esac
@@ -74,7 +74,7 @@ install_blackarch_keyring() {
 
 install_ethical_hacking_environment() {
     echo -e "\n[BUSY] Installing ethical hacking environment..."
-    echo -e "[ (0_o\") ]You might wanna grab a coffee. This can take a bit...\n"
+    echo -e "[ (0_o\") ] You might wanna grab a coffee. This can take a bit...\n"
 
     BASE_PACKAGES=(
         base-devel git wget curl unzip zip p7zip
@@ -174,7 +174,7 @@ install_ethical_hacking_environment() {
     check_yay
 
     # Begin your package installation and update logic using $YAY_CMD.
-    echo "[BUSY] Updating AUR packages..."
+    echo "[BUSY] Updating AUR database..."
     $YAY_CMD -Syu --noconfirm
 
     echo -e "\n[BUSY] Installing AUR packages..."
@@ -183,7 +183,9 @@ install_ethical_hacking_environment() {
 
     echo -e "[BUSY] Updating system and downloading fonts..."
     sudo pacman -Syu --noconfirm
+    cd "~/Downloads"
     curl -O "https://github.com/IdreesInc/Monocraft/releases/download/v4.0/Monocraft-nerd-fonts-patched.ttc"
+    cd
 
     echo -e "\n[ :3c ] Ethical hacking environment setup complete!\n"
 }
@@ -216,7 +218,6 @@ while true; do
             install_blackarch_keyring
             install_ethical_hacking_environment
             break
-	    echo -e "\n[ :3c ] "
             ;;
         4)
             echo -e "\n[ :3c ] Exiting setup. Goodbye! (^_^)/\n"
