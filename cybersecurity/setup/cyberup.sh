@@ -1,8 +1,6 @@
 #!/bin/bash
 
-# Update system and synchronize package databases
-echo "[ :| ] Updating system..."
-sudo pacman -Syu --noconfirm
+VERSION=1.2.1
 
 display_ASCII_header() {
 
@@ -25,23 +23,25 @@ display_ASCII_header() {
 }
 
 install_blackarch_keyring() {
-    echo "[ :| ] Setting up BlackArch keyring..."
+    echo -e "\n[BUSY] Setting up BlackArch keyring and downloading bootstrap..."
     curl -O https://blackarch.org/strap.sh
     }
 
+    echo "[BUSY] Adding execute permissions to strap.sh file."
     chmod +x strap.sh
     ./strap.sh
 
-    echo "Enabling multilib repository..."
+    echo "[BUSY] Enabling multilib repository..."
     sed -i '/\[multilib\]/,/Include/s/^#//' /etc/pacman.conf
 
-    echo "[ :| ] Updating package databases..."
+    echo "[BUSY] Updating package databases..."
     sudo pacman -Syu --noconfirm
 
-    echo "[ :3c ] BlackArch keyring setup complete!"
+    echo -e "\n[ :3 ] BlackArch keyring setup complete!\n"
 
 install_ethical_hacking_environment() {
-    echo "[ :| ] Installing ethical hacking environment..."
+    echo -e "\n[BUSY] Installing ethical hacking environment..."
+    echo -e "[ (0_o\") ]You might wanna grab a coffee. This can take a bit.\n"
 
     BASE_PACKAGES=(
         base-devel git wget curl unzip zip p7zip
@@ -51,10 +51,10 @@ install_ethical_hacking_environment() {
     )
 
     DEV_TOOLS=(
-        vim neovim gcc clang gdb lldb cmake make valgrind
-        strace ltrace python python-pip ipython jupyter-notebook
+        vim gcc clang gdb lldb cmake make valgrind strace 
+	ltrace python python-pip ipython jupyter-notebook
         python-virtualenv jdk-openjdk maven gradle go rustup rust
-        nodejs npm yarn shellcheck
+        nodejs npm yarn shellcheck ruby
     )
 
     CYBERSEC_TOOLS=(
@@ -110,12 +110,18 @@ install_ethical_hacking_environment() {
         discord_arch_electron wordlists social-engineer-toolkit
         spiderfoot burpsuite recon-ng dnsprobe chkrootkit
         autopsy gobuster zenmap responder retdec extundelete guymager
-        crunch
+        crunch sherlock-git phoneinfoga-bin osintgram dcfldd
+	simplescreenrecorder
     )
 
+    # Modifying Arch Linux mirros to be set to the US, checking
+    # only HTTPS mirrors, and sorting the servers by speed.
+    echo -e "\n[BUSY] Sorting fresh Arch mirrors..."
     reflector -p https -c US --sort rate --verbose
+    echo -e "[ :3 ] Done sorting mirrors.\n"
 
-    # Install packages
+    # Install necessary packages.
+    echo -e "\n[BUSY] Installing a fuckload of packages..."
     sudo pacman -S --noconfirm --needed "${ETHICAL_HACKING_TOOLS[@]}"
     sudo pacman -S --noconfirm --needed "${BASE_PACKAGES[@]}"
     sudo pacman -S --noconfirm --needed "${DEV_TOOLS[@]}"
@@ -129,23 +135,28 @@ install_ethical_hacking_environment() {
     sudo pacman -S --noconfirm --needed "${NOTETAKING_REPORT_TOOLS[@]}"
     sudo pacman -S --noconfirm --needed "${EXTRAS[@]}"
     sudo pacman -S --noconfirm --needed "${FONTS_THEMES[@]}"
+    echo -e "[ :3 ] Holy fuck it finished.\n"
 
-    # Install AUR packages
+    # Installing yay and then AUR packages.
     if ! command -v yay &>/dev/null; then
-        echo "[ :| ] Installing 'yay' for AUR package management..."
+        echo -e "\n[BUSY] Installing 'yay' for AUR package management...\n"
         git clone https://aur.archlinux.org/yay.git /tmp/yay
         (cd /tmp/yay && makepkg -si --noconfirm)
         rm -rf /tmp/yay
     fi
 
+    echo -e "\n[BUSY] Installing AUR packages..."
     yay -S --noconfirm "${AUR_PACKAGES[@]}"
+    echo -e "[ :3 ] Done installing all AUR packages.\n"
 
+    echo -e "[BUSY] Updating system and downloading fonts..."
     sudo pacman -Syu --noconfirm
+    curl -O "https://github.com/IdreesInc/Monocraft/releases/download/v4.0/Monocraft-nerd-fonts-patched.ttc"
 
     echo -e "\n[ :3c ] Ethical hacking environment setup complete!\n"
 }
 
-# Main Menu
+# Main menu.
 while true; do
 
     clear
@@ -155,8 +166,8 @@ while true; do
     echo "  ==================================================================="
     echo "  [1] Install BlackArch keyring only"
     echo "  [2] Install ethical hacking environment only"
-    echo "  [3] Install both BlackArch keyring and ethical hacking environment"
-    echo "  [4] Exit"
+    echo "  [3] Install both BlackArch keyring and ethical hacking environment :3""
+    echo -e "  [4] Exit :\("
     echo -e "  ===================================================================\n"
     read -rp " [?] Choose an option [1-4]: " choice
 
@@ -173,6 +184,7 @@ while true; do
             install_blackarch_keyring
             install_ethical_hacking_environment
             break
+	    echo -e "\n[ :3c ] "
             ;;
         4)
             echo -e "\n[ :3c ] Exiting setup. Goodbye! (^_^)/\n"
