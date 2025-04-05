@@ -1,10 +1,12 @@
 #!/bin/bash
 
-VERSION=1.2.2
-export YAYFLAGS="--noconfirm --quiet --refresh --removemake --cleanafter"
+VERSION=1.2.3
+
+export YAY_FLAGS="--noconfirm --quiet --refresh --removemake --cleanafter"
+export PACMAN_FLAGS="--needed --noconfirm --quiet"
 
 if [ "$EUID" -eq 0 ]; then
-    echo "[ :( ] Do not run this script as root. Please run as a regular user."
+    echo "[ :( ] Do not run this script as root. Please run as a regular user. Exiting shell script..."
     exit 1
 fi
 
@@ -27,14 +29,14 @@ display_ASCII_header() {
     echo -e " coding, penetration testing, and forensic investigations with a single execution.\n"
 }
 
-# Function to check yay.
+# Function to check if yay is installed -- will continue with user's installed yay setup if detected.
 check_yay() {
     if command -v yay >/dev/null 2>&1; then
         echo "[+] yay is already installed on the system."
         YAY_CMD="yay"
     else
         echo "[ :( ] yay is not installed."
-        read -p "Do you want to run yay from /tmp (if available)? [y/N] " choice
+        read -p "[?] Do you want to run yay from /tmp (if available)? [y/N] " choice
         case "$choice" in
             y|Y )
                 if [ -x "/tmp/yay" ]; then
@@ -53,12 +55,13 @@ check_yay() {
     fi
 }
 
+# Function to setup BlackArch keyring on system and enables multilib on system.
 install_blackarch_keyring() {
     echo -e "\n[BUSY] Setting up BlackArch keyring and downloading bootstrap..."
     curl -O https://blackarch.org/strap.sh
-    }
+    
 
-    echo "[BUSY] Adding execute permissions to strap.sh file."
+    echo "[BUSY] Adding execute permissions to strap.sh file..."
     chmod +x strap.sh
     ./strap.sh
 
@@ -71,7 +74,9 @@ install_blackarch_keyring() {
     echo -e "\n[ :3 ] BlackArch keyring setup complete!"
     echo -e "[BUSY] Cleaning up and removing strap.sh...\n"
     rm strap.sh
+}
 
+# Function defines and then installs a fuckton of packages from the AUR and official repos.
 install_ethical_hacking_environment() {
     echo -e "\n[BUSY] Installing ethical hacking environment..."
     echo -e "[ (0_o\") ] You might wanna grab a coffee. This can take a bit...\n"
@@ -91,8 +96,8 @@ install_ethical_hacking_environment() {
     )
 
     CYBERSEC_TOOLS=(
-        metasploit nmap wireshark-qt john hashcat hydra
-        sqlmap nikto aircrack-ng impacket whois gnu-netcat
+        metasploit nmap wireshark-qt john hydra sqlmap nikto 
+	aircrack-ng impacket whois gnu-netcat
     )
 
     REVERSE_TOOLS=(
@@ -131,6 +136,7 @@ install_ethical_hacking_environment() {
 
     EXTRAS=(
         ranger nnn thunar imagemagick perl-image-exiftool poppler pdftk qpdf
+	telegram-desktop
     )
 
     FONTS_THEMES=(
@@ -144,10 +150,10 @@ install_ethical_hacking_environment() {
         spiderfoot burpsuite recon-ng dnsprobe chkrootkit
         autopsy gobuster zenmap responder retdec extundelete guymager
         crunch sherlock-git phoneinfoga-bin osintgram dcfldd
-        simplescreenrecorder
+        simplescreenrecorder binaryninja-free zoom otf-monocraft
     )
 
-    # Modifying Arch Linux mirros to be set to the US, checking
+    # Modifying Arch Linux mirrors to be set to the US, checking
     # only HTTPS mirrors, and sorting the servers by speed.
     echo -e "\n[BUSY] Sorting fresh Arch mirrors..."
     reflector -p https -c US --sort rate --verbose
@@ -173,19 +179,18 @@ install_ethical_hacking_environment() {
     # Check yay availability.
     check_yay
 
-    # Begin your package installation and update logic using $YAY_CMD.
-    echo "[BUSY] Updating AUR database..."
+    # Begin package installation and update logic using $YAY_CMD.
+    echo -e "\n[BUSY] Updating AUR databases (output is set to quiet)..."
     $YAY_CMD -Syu --noconfirm
+    echo -e "[ :3 ] Done updating AUR databases.\n"
 
     echo -e "\n[BUSY] Installing AUR packages..."
-    $YAY_CMD $YAYFLAGS -S "${AUR_PACKAGES[@]}"
+    $YAY_CMD $YAY_FLAGS -S "${AUR_PACKAGES[@]}"
     echo -e "[ :3 ] Done installing all AUR packages.\n"
 
-    echo -e "[BUSY] Updating system and downloading fonts..."
+    echo -e "\n[BUSY] Updating system..."
     sudo pacman -Syu --noconfirm
-    cd "~/Downloads"
-    curl -O "https://github.com/IdreesInc/Monocraft/releases/download/v4.0/Monocraft-nerd-fonts-patched.ttc"
-    cd
+    echo -e "[ :3 ] Done updating system.\n"
 
     echo -e "\n[ :3c ] Ethical hacking environment setup complete!\n"
 }
@@ -196,11 +201,11 @@ while true; do
     clear
 
     display_ASCII_header
-    echo "      CYBERUP Arch Linux Workstation Setup Script, Version 1.1"
+    echo "      CYBERUP Arch Linux Workstation Setup Script, v$VERSION"
     echo "  ==================================================================="
     echo "  [1] Install BlackArch keyring only"
     echo "  [2] Install ethical hacking environment only"
-    echo "  [3] Install both BlackArch keyring and ethical hacking environment :3"
+    echo "  [3] Install both BlackArch keyring and ethical hacking environment :3c"
     echo -e "  [4] Exit :("
     echo -e "  ===================================================================\n"
     read -rp " [?] Choose an option [1-4]: " choice
