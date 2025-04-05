@@ -1,6 +1,7 @@
 #!/bin/bash
 
-VERSION=1.2.3
+VERSION=1.3.1
+YEAR=$(date +%Y)
 
 export YAY_FLAGS="--noconfirm --quiet --refresh --removemake --cleanafter"
 export PACMAN_FLAGS="--needed --noconfirm --quiet"
@@ -21,8 +22,8 @@ display_ASCII_header() {
     echo " ░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░        "
     echo "  ░▒▓██████▓▒░   ░▒▓█▓▒░   ░▒▓███████▓▒░░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░        "
     echo -e "\n"
-    echo -e "                        CYBERUP, v$VERSION, by SATANMYNINJAS, 2025                    \n"
-    echo -e "                                      MIT LICENSE\n\n"
+    echo -e "                        CYBERUP, v$VERSION, by SATANMYNINJAS, $YEAR                    \n"
+    echo -e "                   MIT LICENSE -- SHOUTOUT DEFCON-201 + NYC-2600 :3\n\n"
     echo -e " This script automates the installation of essential tools and utilities for a fully equipped"
     echo -e " cybersecurity, ethical hacking, reverse engineering, and forensics workstation on Arch Linux."
     echo -e " Designed with efficiency and comprehensiveness in mind, it ensures your system is ready for"
@@ -32,7 +33,7 @@ display_ASCII_header() {
 # Function to check if yay is installed -- will continue with user's installed yay setup if detected.
 check_yay() {
     if command -v yay >/dev/null 2>&1; then
-        echo "[+] yay is already installed on the system."
+        echo "[ :3 ] yay is already installed on the system."
         YAY_CMD="yay"
     else
         echo "[ :( ] yay is not installed."
@@ -80,6 +81,14 @@ install_blackarch_keyring() {
 install_ethical_hacking_environment() {
     echo -e "\n[BUSY] Installing ethical hacking environment..."
     echo -e "[ (0_o\") ] You might wanna grab a coffee. This can take a bit...\n"
+
+    ESSENTIAL_CORE=(
+    	linux-lts linux-lts-headers grub-btrfs timeshift os-prober 
+	archlinux-keyring networkmanager network-manager-applet
+    	fail2ban lynis clamav clamtk smartmontools nvme-cli 
+	ethtool iw rfkillusbutils pciutils inxi dmidecode
+    	pacman-contrib downgrade pkgfile man-db man 
+    )
 
     BASE_PACKAGES=(
         base-devel git wget curl unzip zip p7zip
@@ -161,19 +170,20 @@ install_ethical_hacking_environment() {
 
     # Install necessary packages.
     echo -e "\n[BUSY] Installing a fuckload of packages..."
-    sudo pacman -S --noconfirm --needed "${ETHICAL_HACKING_TOOLS[@]}"
-    sudo pacman -S --noconfirm --needed "${BASE_PACKAGES[@]}"
-    sudo pacman -S --noconfirm --needed "${DEV_TOOLS[@]}"
-    sudo pacman -S --noconfirm --needed "${CYBERSEC_TOOLS[@]}"
-    sudo pacman -S --noconfirm --needed "${REVERSE_TOOLS[@]}"
-    sudo pacman -S --noconfirm --needed "${FORENSICS_TOOLS[@]}"
-    sudo pacman -S --noconfirm --needed "${ETHICAL_HACKING_TOOLS[@]}"
-    sudo pacman -S --noconfirm --needed "${NETWORKING_TOOLS[@]}"
-    sudo pacman -S --noconfirm --needed "${VIRTUALIZATION_TOOLS[@]}"
-    sudo pacman -S --noconfirm --needed "${SECURITY_PRIVACY[@]}"
-    sudo pacman -S --noconfirm --needed "${NOTETAKING_REPORT_TOOLS[@]}"
-    sudo pacman -S --noconfirm --needed "${EXTRAS[@]}"
-    sudo pacman -S --noconfirm --needed "${FONTS_THEMES[@]}"
+    sudo pacman -S $PACMAN_FLAGS "${ESSENTIAL_CORE[@]}"
+    sudo pacman -S $PACMAN_FLAGS "${ETHICAL_HACKING_TOOLS[@]}"
+    sudo pacman -S $PACMAN_FLAGS "${BASE_PACKAGES[@]}"
+    sudo pacman -S $PACMAN_FLAGS "${DEV_TOOLS[@]}"
+    sudo pacman -S $PACMAN_FLAGS "${CYBERSEC_TOOLS[@]}"
+    sudo pacman -S $PACMAN_FLAGS "${REVERSE_TOOLS[@]}"
+    sudo pacman -S $PACMAN_FLAGS "${FORENSICS_TOOLS[@]}"
+    sudo pacman -S $PACMAN_FLAGS "${ETHICAL_HACKING_TOOLS[@]}"
+    sudo pacman -S $PACMAN_FLAGS "${NETWORKING_TOOLS[@]}"
+    sudo pacman -S $PACMAN_FLAGS "${VIRTUALIZATION_TOOLS[@]}"
+    sudo pacman -S $PACMAN_FLAGS "${SECURITY_PRIVACY[@]}"
+    sudo pacman -S $PACMAN_FLAGS "${NOTETAKING_REPORT_TOOLS[@]}"
+    sudo pacman -S $PACMAN_FLAGS "${EXTRAS[@]}"
+    sudo pacman -S $PACMAN_FLAGS "${FONTS_THEMES[@]}"
     echo -e "[ :3 ] Holy fuck it finished.\n"
 
     # Check yay availability.
