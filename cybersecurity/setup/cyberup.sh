@@ -101,7 +101,7 @@ install_ethical_hacking_environment() {
         vim gvim gcc clang gdb lldb cmake make valgrind strace 
 	ltrace python python-pip ipython jupyter-notebook
         python-virtualenv jdk-openjdk maven gradle go rustup rust
-        nodejs npm yarn shellcheck ruby neovim 
+        nodejs npm yarn shellcheck ruby neovim github-cli
     )
 
     CYBERSEC_TOOLS=(
@@ -211,13 +211,13 @@ while true; do
     clear
 
     display_ASCII_header
-    echo "      CYBERUP Arch Linux Workstation Setup Script, v$VERSION"
-    echo "  ==================================================================="
+    echo "           CYBERUP Arch Linux Workstation Setup Script, v$VERSION"
+    echo "  ========================================================================"
     echo "  [1] Install BlackArch keyring only"
     echo "  [2] Install ethical hacking environment only"
     echo "  [3] Install both BlackArch keyring and ethical hacking environment :3c"
     echo -e "  [4] Exit :("
-    echo -e "  ===================================================================\n"
+    echo -e "  ========================================================================\n"
     read -rp " [?] Choose an option [1-4]: " choice
 
     case $choice in
