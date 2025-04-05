@@ -11,6 +11,12 @@ if [ "$EUID" -eq 0 ]; then
     exit 1
 fi
 
+## ----------------------------------------------------------------------------
+## Function: display_ASCII_header
+## Description:
+##     Displays a custom ASCII art banner, script version, and purpose.
+##     Adds a brief overview of the script's goals and licensing info.
+## ----------------------------------------------------------------------------
 display_ASCII_header() {
 
     echo -e "\n\n"
@@ -30,7 +36,14 @@ display_ASCII_header() {
     echo -e " coding, penetration testing, and forensic investigations with a single execution.\n"
 }
 
-# Function to check if yay is installed -- will continue with user's installed yay setup if detected.
+## ----------------------------------------------------------------------------
+## Function: check_yay
+## Description:
+##     Checks if the AUR helper 'yay' is installed on the system.
+##     If not, optionally uses a local /tmp/yay fallback, or aborts.
+## Globals:
+##     YAY_CMD - Path to yay binary (set if found)
+## ----------------------------------------------------------------------------
 check_yay() {
     if command -v yay >/dev/null 2>&1; then
         echo "[ :3 ] yay is already installed on the system."
@@ -56,7 +69,13 @@ check_yay() {
     fi
 }
 
-# Function to setup BlackArch keyring on system and enables multilib on system.
+## ----------------------------------------------------------------------------
+## Function: install_blackarch_keyring
+## Description:
+##     Installs the BlackArch Linux keyring and repository by downloading
+##     the official strap.sh installer and executing it. Also enables
+##     the multilib repository and updates pacman databases.
+## ----------------------------------------------------------------------------
 install_blackarch_keyring() {
     echo -e "\n[BUSY] Setting up BlackArch keyring and downloading bootstrap..."
     curl -O https://blackarch.org/strap.sh
@@ -77,7 +96,20 @@ install_blackarch_keyring() {
     rm strap.sh
 }
 
-# Function defines and then installs a fuckton of packages from the AUR and official repos.
+## ----------------------------------------------------------------------------
+## Function: install_ethical_hacking_environment
+## Description:
+##     Installs an extensive set of packages from both official Arch repos
+##     and the AUR to create a full cybersecurity, reverse engineering,
+##     and digital forensics lab environment.
+##
+##     Tasks:
+##       - Updates Arch mirror list with fastest HTTPS mirrors (US)
+##       - Installs categorized toolsets (core, dev, hacking, forensics, etc.)
+##       - Installs fonts/themes and productivity tools
+##       - Installs AUR packages using yay
+##       - Performs a final system update
+## ----------------------------------------------------------------------------
 install_ethical_hacking_environment() {
     echo -e "\n[BUSY] Installing ethical hacking environment..."
     echo -e "[ (0_o\") ] You might wanna grab a coffee. This can take a bit...\n"
