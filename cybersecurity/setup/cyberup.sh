@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=1.3.1
+VERSION=1.3.2
 YEAR=$(date +%Y)
 
 export YAY_FLAGS="--noconfirm --quiet --refresh --removemake --cleanafter"
