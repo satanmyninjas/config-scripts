@@ -85,14 +85,14 @@ install_ethical_hacking_environment() {
         base-devel git wget curl unzip zip p7zip
         htop neofetch tmux fish fzf fd ripgrep btop
         binutils nasm testdisk iputils traceroute bind 
-        reflector screen
+        reflector screen 
     )
 
     DEV_TOOLS=(
-        vim gcc clang gdb lldb cmake make valgrind strace 
+        vim gvim gcc clang gdb lldb cmake make valgrind strace 
 	ltrace python python-pip ipython jupyter-notebook
         python-virtualenv jdk-openjdk maven gradle go rustup rust
-        nodejs npm yarn shellcheck ruby
+        nodejs npm yarn shellcheck ruby neovim 
     )
 
     CYBERSEC_TOOLS=(
