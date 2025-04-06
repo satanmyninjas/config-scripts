@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=1.3.2
+VERSION=1.4
 YEAR=$(date +%Y)
 
 export YAY_FLAGS="--noconfirm --quiet --refresh --removemake --cleanafter"
@@ -9,6 +9,27 @@ export PACMAN_FLAGS="--needed --noconfirm --quiet"
 if [ "$EUID" -eq 0 ]; then
     echo "[ :( ] Do not run this script as root. Please run as a regular user. Exiting shell script..."
     exit 1
+fi
+
+if [[ "$1" == "--install" ]]; then
+    INSTALL_DIR="/usr/local/bin"
+    SCRIPT_NAME="cyberup"
+
+    # Allow override with --install=/bin or other path
+    if [[ "$1" == --install=* ]]; then
+        INSTALL_DIR="${1#--install=}"
+    fi
+
+    # Copy the script to the target directory
+    echo "Installing to $INSTALL_DIR/$SCRIPT_NAME ..."
+    if [[ $EUID -ne 0 ]]; then
+        sudo cp "$0" "$INSTALL_DIR/$SCRIPT_NAME" && sudo chmod +x "$INSTALL_DIR/$SCRIPT_NAME"
+    else
+        cp "$0" "$INSTALL_DIR/$SCRIPT_NAME" && chmod +x "$INSTALL_DIR/$SCRIPT_NAME"
+    fi
+
+    echo "Installed successfully. You can now run 'cyberup' from anywhere."
+    exit 0
 fi
 
 ## ----------------------------------------------------------------------------
