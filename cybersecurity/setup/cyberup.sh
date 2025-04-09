@@ -1,10 +1,10 @@
 #!/bin/bash
 
-VERSION=1.4
+VERSION=1.4.1
 YEAR=$(date +%Y)
 
-export YAY_FLAGS="--noconfirm --quiet --refresh --removemake --cleanafter"
-export PACMAN_FLAGS="--needed --noconfirm --quiet"
+export YAY_FLAGS="--noconfirm --quiet"
+export PACMAN_FLAGS="--noconfirm --quiet"
 
 if [ "$EUID" -eq 0 ]; then
     echo "[ :( ] Do not run this script as root. Please run as a regular user. Exiting shell script..."
