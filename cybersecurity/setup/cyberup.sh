@@ -193,7 +193,7 @@ install_ethical_hacking_environment() {
 
     NOTETAKING_REPORT_TOOLS=(
         libreoffice-fresh okular zathura zathura-pdf-poppler obsidian
-        cherrytree
+        cherrytree exploitdb
     )
 
     EXTRAS=(
