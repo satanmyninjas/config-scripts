@@ -174,7 +174,7 @@ install_ethical_hacking_environment() {
 
     ETHICAL_HACKING_TOOLS=(
         hashcat kismet wifite reaver cowpatty mitmproxy
-        bettercap bully wifite
+        bettercap bully wifite aircrack-ng
     )
 
     NETWORKING_TOOLS=(
@@ -189,6 +189,7 @@ install_ethical_hacking_environment() {
 
     SECURITY_PRIVACY=(
         ufw gufw veracrypt gnupg keepassxc tor torbrowser-launcher
+	rkhunter macchanger
     )
 
     NOTETAKING_REPORT_TOOLS=(
@@ -213,7 +214,7 @@ install_ethical_hacking_environment() {
         autopsy gobuster zenmap responder retdec extundelete guymager
         crunch sherlock-git phoneinfoga-bin osintgram dcfldd
         simplescreenrecorder binaryninja-free zoom otf-monocraft
-	mkinitcpio-firmware
+	mkinitcpio-firmware powershell
     )
 
     # Modifying Arch Linux mirrors to be set to the US, checking
