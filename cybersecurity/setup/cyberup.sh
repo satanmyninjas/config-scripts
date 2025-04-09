@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=1.4.1
+VERSION=1.4.2
 YEAR=$(date +%Y)
 
 export YAY_FLAGS="--noconfirm --quiet"
@@ -213,6 +213,7 @@ install_ethical_hacking_environment() {
         autopsy gobuster zenmap responder retdec extundelete guymager
         crunch sherlock-git phoneinfoga-bin osintgram dcfldd
         simplescreenrecorder binaryninja-free zoom otf-monocraft
+	mkinitcpio-firmware
     )
 
     # Modifying Arch Linux mirrors to be set to the US, checking
