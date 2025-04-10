@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=2.1
+VERSION=2.2
 YEAR=$(date +%Y)
 
 LOG_ERRORS=false
@@ -27,7 +27,7 @@ show_usage() {
     cat << EOF
 
 cyberup - Arch Linux Cybersecurity Workstation Installer v$VERSION
-by SATANMYNINJAS
+by SATANMYNINJAS [DEFCON201] [nyc2600]
 
 Usage:
   cyberup [OPTION]
@@ -168,6 +168,8 @@ Display usage help and exit.
 
 .SH AUTHOR
 Written by SATANMYNINJAS.
+GitHub Repo: https://github.com/satanmyninjas/config-scripts/blob/main/cybersecurity/setup/cyberup.sh
+Gist: https://gist.github.com/satanmyninjas/0a9249ad6e13c857dcd25ffa5bbd0f09
 
 .SH LICENSE
 MIT License.
