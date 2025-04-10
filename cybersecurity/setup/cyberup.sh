@@ -3,6 +3,117 @@
 VERSION=2.1
 YEAR=$(date +%Y)
 
+LOG_ERRORS=false
+LOG_FILE="$HOME/cyberup-error.log"
+
+export PACMAN_FLAGS="--needed --color=auto --noconfirm"
+export YAY_FLAGS="--needed --noconfirm --batchinstall --removemake --cleanafter --color=auto --pgpfetch"
+
+## ----------------------------------------------------------------------------
+## NAME
+##     show_usage - display program usage instructions.
+##
+## SYNOPSIS
+##     show_usage
+##
+## DESCRIPTION
+##     Outputs the help page, usage syntax, options, features,
+##     and program information for the cyberup script.
+##
+## AUTHOR
+##     Written by SATANMYNINJAS.
+## ----------------------------------------------------------------------------
+show_usage() {
+    cat << EOF
+
+cyberup - Arch Linux Cybersecurity Workstation Installer v$VERSION
+by SATANMYNINJAS
+
+Usage:
+  cyberup [OPTION]
+
+Options:
+  --install[=PATH]    Install this script system-wide (default: /usr/local/bin).
+  --update            Download and replace the current script with the latest version.
+  --log-errors        Enable error/warning logging to \$HOME/cyberup-error.log.
+  --help              Show this help message and exit.
+
+Interactive Menu:
+  [1] Install BlackArch keyring only
+  [2] Install ethical hacking environment only
+  [3] Install both BlackArch keyring and ethical hacking environment
+  [4] Show this help page
+  [5] Exit
+
+Description:
+  cyberup automates the installation of a complete Arch Linux cybersecurity
+  workstation, suitable for ethical hacking, forensics, reverse engineering,
+  and security research.
+
+Features:
+  - Installs categorized packages (core, dev, pentest, forensics, etc)
+  - Fetches tools from official repos, BlackArch, and the AUR
+  - Handles pacman keyring updates and AUR PGP fetching
+  - Optionally refreshes Arch mirrors based on your detected country
+  - Provides an optional error log for troubleshooting
+  - Supports auto-updating the script from GitHub
+
+Examples:
+  ./cyberup.sh --help
+  ./cyberup.sh --install
+  ./cyberup.sh --log-errors
+  ./cyberup.sh --update
+
+License:
+  MIT License — Shoutout DEFCON-201 + NYC-2600 :3c
+
+Repository:
+  https://gist.github.com/<your-username>/<gist-id>
+
+EOF
+}
+
+## ----------------------------------------------------------------------------
+## NAME
+##     log_error - append warnings and error messages to logfile.
+##
+## SYNOPSIS
+##     log_error "message"
+##
+## DESCRIPTION
+##     If error logging is enabled, appends warnings to the log file
+##     at \$HOME/cyberup-error.log with a timestamp. Always echoes
+##     to stdout regardless.
+##
+## OPTIONS
+##     "message"
+##         Message string to log.
+##
+## AUTHOR
+##     Written by SATANMYNINJAS.
+## ----------------------------------------------------------------------------
+log_error() {
+    local msg="$1"
+    echo -e "[WARN] $msg"
+    if [[ "$LOG_ERRORS" == true ]]; then
+        echo "$(date +'%Y-%m-%d %H:%M:%S') [WARN] $msg" >> "$LOG_FILE"
+    fi
+}
+
+## ----------------------------------------------------------------------------
+## NAME
+##     update_cyberup - download and replace cyberup with the latest version.
+##
+## SYNOPSIS
+##     update_cyberup
+##
+## DESCRIPTION
+##     Downloads the latest cyberup script from the GitHub repository
+##     and overwrites the local copy. Sets execute permissions.
+##
+## AUTHOR
+##     Written by SATANMYNINJAS.
+## ----------------------------------------------------------------------------
 update_cyberup() {
     echo -e "\n[ BUSY ] Checking for cyberup script updates...\n"
     curl -s -o "$HOME/cyberup.sh" https://raw.githubusercontent.com/satanmyninjas/config-scripts/refs/heads/main/cybersecurity/setup/cyberup.sh
@@ -12,8 +123,59 @@ update_cyberup() {
     exit 0
 }
 
-export PACMAN_FLAGS="--needed --color=auto --noconfirm"
-export YAY_FLAGS="--needed --noconfirm --batchinstall --removemake --cleanafter --color=auto --pgpfetch"
+## ----------------------------------------------------------------------------
+## Function: generate_manpage
+## Description:
+##     Outputs a formatted manpage for cyberup in roff/groff format.
+## ----------------------------------------------------------------------------
+generate_manpage() {
+cat << 'EOF'
+.TH CYBERUP 1 "$YEAR" "v$VERSION" "Cybersecurity Workstation Setup"
+
+.SH NAME
+cyberup \- Arch Linux Cybersecurity Workstation Installer
+
+.SH SYNOPSIS
+.B cyberup
+[\fIOPTION\fR]
+
+.SH DESCRIPTION
+cyberup automates the installation of a fully equipped Arch Linux workstation for cybersecurity, forensics, and ethical hacking.
+
+.SH OPTIONS
+.TP
+\fB--install[=PATH]\fR
+Install this script system-wide (default: /usr/local/bin).
+
+.TP
+\fB--update\fR
+Download and replace the current script with the latest version.
+
+.TP
+\fB--log-errors\fR
+Enable error/warning logging to \$HOME/cyberup-error.log.
+
+.TP
+\fB--help\fR
+Display usage help and exit.
+
+.SH FEATURES
+- Installs categorized tools (core, dev, pentest, forensics, etc)
+- Installs AUR packages using yay
+- Auto-refreshes pacman keys and mirrors
+- Region-optimized mirror updates
+- Error logging support
+
+.SH AUTHOR
+Written by SATANMYNINJAS.
+
+.SH LICENSE
+MIT License.
+
+.SH SEE ALSO
+pacman(8), yay(1), reflector(1)
+EOF
+}
 
 
 if [ "$EUID" -eq 0 ]; then
@@ -21,25 +183,28 @@ if [ "$EUID" -eq 0 ]; then
     exit 1
 fi
 
-if [[ "$1" == "--install" ]]; then
+if [[ "$1" == "--install" || "$1" == --install=* ]]; then
     INSTALL_DIR="/usr/local/bin"
+    MANPAGE_DIR="/usr/share/man/man1"
     SCRIPT_NAME="cyberup"
 
-    # Allow override with --install=/bin or other path
     if [[ "$1" == --install=* ]]; then
         INSTALL_DIR="${1#--install=}"
     fi
 
-    # Copy the script to the target directory
     echo "[ BUSY ] Installing to $INSTALL_DIR/$SCRIPT_NAME ..."
-    if [[ $EUID -ne 0 ]]; then
-        sudo cp "$0" "$INSTALL_DIR/$SCRIPT_NAME" && sudo chmod +x "$INSTALL_DIR/$SCRIPT_NAME"
-    else
-        cp "$0" "$INSTALL_DIR/$SCRIPT_NAME" && chmod +x "$INSTALL_DIR/$SCRIPT_NAME"
-    fi
+    sudo cp "$0" "$INSTALL_DIR/$SCRIPT_NAME"
+    sudo chmod +x "$INSTALL_DIR/$SCRIPT_NAME"
 
-    echo "[ :3c ] Installed successfully. You can now run 'cyberup' from anywhere."
-    echo "[ ! ] If you updated this script, be sure to run ./cyberup --install to have the latest version be available system            wide."
+    echo "[ BUSY ] Installing manpage to $MANPAGE_DIR ..."
+    generate_manpage | sudo tee "$MANPAGE_DIR/cyberup.1" > /dev/null
+    sudo gzip -f "$MANPAGE_DIR/cyberup.1"
+
+    echo "[ BUSY ] Updating man database ..."
+    sudo mandb
+
+    echo "[ :3c ] Installed successfully. You can now run 'cyberup' or 'man cyberup'"
+    echo "[ ! ] If you updated this script, be sure to run ./cyberup --install to have the latest version be available system wide."
     exit 0
 fi
 
@@ -47,11 +212,29 @@ if [[ "$1" == "--update" ]]; then
     update_cyberup
 fi
 
+if [[ "$1" == "--help" ]] then
+    show_usage
+fi
+
+if [[ "$1" == "--log-errors" ]]; then
+    LOG_ERRORS=true
+    echo "[ :3 ] Logging enabled! Errors and warnings will be saved to: $LOG_FILE"
+    : > "$LOG_FILE"  # Wipe previous log
+fi
+
 ## ----------------------------------------------------------------------------
-## Function: display_ASCII_header
-## Description:
-##     Displays a custom ASCII art banner, script version, and purpose.
-##     Adds a brief overview of the script's goals and licensing info.
+## NAME
+##     display_ASCII_header - print program banner.
+##
+## SYNOPSIS
+##     display_ASCII_header
+##
+## DESCRIPTION
+##     Outputs the cyberup banner, version number, license, and
+##     project purpose to the terminal.
+##
+## AUTHOR
+##     Written by SATANMYNINJAS.
 ## ----------------------------------------------------------------------------
 display_ASCII_header() {
 
@@ -73,19 +256,25 @@ display_ASCII_header() {
 }
 
 ## ----------------------------------------------------------------------------
-## Function: check_yay
-## Description:
-##     Checks if the AUR helper 'yay' is installed on the system.
-##     If not, optionally uses a local /tmp/yay fallback, or aborts.
-## Globals:
-##     YAY_CMD - Path to yay binary (set if found)
+## NAME
+##     check_yay - verify yay is installed and usable.
+##
+## SYNOPSIS
+##     check_yay
+##
+## DESCRIPTION
+##     Checks for yay (AUR helper) availability in the system \$PATH.
+##     Falls back to /tmp/yay if available. Logs errors and exits if not found.
+##
+## AUTHOR
+##     Written by SATANMYNINJAS.
 ## ----------------------------------------------------------------------------
 check_yay() {
     if command -v yay >/dev/null 2>&1; then
         echo "[ :3 ] yay is already installed on the system."
         YAY_CMD="yay"
     else
-        echo "[ :( ] yay is not installed."
+        log_error "[ :( ] yay is not installed."
         read -p "[ ? ] Do you want to run yay from /tmp (if available)? [y/N] " choice
         case "$choice" in
             y|Y )
@@ -93,7 +282,7 @@ check_yay() {
                     echo -e "\n[ BUSY ] Using yay from /tmp.\n"
                     YAY_CMD="/tmp/yay"
                 else
-                    echo -e "\n[ :( ] yay not found in /tmp either. Please install yay manually first.\n"
+                    log_error "\n[ :( ] yay not found in /tmp either. Please install yay manually first.\n"
                     exit 1
                 fi
                 ;;
@@ -106,11 +295,18 @@ check_yay() {
 }
 
 ## ----------------------------------------------------------------------------
-## Function: install_blackarch_keyring
-## Description:
-##     Installs the BlackArch Linux keyring and repository by downloading
-##     the official strap.sh installer and executing it. Also enables
-##     the multilib repository and updates pacman databases.
+## NAME
+##     install_blackarch_keyring - add BlackArch repository and keys.
+##
+## SYNOPSIS
+##     install_blackarch_keyring
+##
+## DESCRIPTION
+##     Downloads and runs BlackArch's strap.sh to configure the keyring
+##     and repository. Enables multilib support. Refreshes pacman database.
+##
+## AUTHOR
+##     Written by SATANMYNINJAS.
 ## ----------------------------------------------------------------------------
 install_blackarch_keyring() {
     echo -e "\n[ BUSY ] Setting up BlackArch keyring and downloading bootstrap...\n"
@@ -132,18 +328,20 @@ install_blackarch_keyring() {
 }
 
 ## ----------------------------------------------------------------------------
-## Function: install_ethical_hacking_environment
-## Description:
-##     Installs an extensive set of packages from both official Arch repos
-##     and the AUR to create a full cybersecurity, reverse engineering,
-##     and digital forensics lab environment.
+## NAME
+##     install_ethical_hacking_environment - install full cyber workstation.
 ##
-##     Tasks:
-##       - Updates Arch mirror list with fastest HTTPS mirrors (US)
-##       - Installs categorized toolsets (core, dev, hacking, forensics, etc.)
-##       - Installs fonts/themes and productivity tools
-##       - Installs AUR packages using yay
-##       - Performs a final system update
+## SYNOPSIS
+##     install_ethical_hacking_environment
+##
+## DESCRIPTION
+##     Installs categorized tools for cybersecurity, reverse engineering,
+##     and forensics from official Arch repositories, BlackArch, and AUR.
+##     Refreshes mirrorlist based on detected country. Updates keys and
+##     package databases. Optionally logs warnings/errors to file.
+##
+## AUTHOR
+##     Written by SATANMYNINJAS.
 ## ----------------------------------------------------------------------------
 install_ethical_hacking_environment() {
     echo -e "\n[ BUSY ] Installing ethical hacking environment..."
@@ -361,45 +559,6 @@ install_ethical_hacking_environment() {
     echo -e "\n[ :3c ] Ethical hacking environment setup complete!\n"
 }
 
-## ----------------------------------------------------------------------------
-## Function: show_usage
-## Description:
-##     Displays usage instructions and available flags for the cyberup script.
-## ----------------------------------------------------------------------------
-show_usage() {
-    cat << EOF
-
-cyberup - Arch Linux Cybersecurity Workstation Installer v$VERSION
-by SATANMYNINJAS
-
-Usage: cyberup [OPTION]
-
-Options:
-  --install[=PATH]    Install this script system-wide (default: /usr/local/bin).
-  --help              Show this help message and exit.
-
-Menu Options (Interactive):
-  [1] Install BlackArch keyring only
-  [2] Install ethical hacking environment only
-  [3] Install both BlackArch keyring and ethical hacking environment
-  [4] Exit
-
-Description:
-  cyberup automates the setup of a fully equipped cybersecurity,
-  reverse engineering, and forensics workstation on Arch Linux.
-
-  - Installs categorized tools (core, dev, hacking, forensics, etc)
-  - Installs AUR tools via yay
-  - Optional mirror refresh based on your region
-  - Automatically handles pacman keyring updates
-  - Optimized for clean, fast, reliable Arch systems
-
-License:
-  MIT License — Shoutout DEFCON-201 + NYC-2600 :3c
-
-EOF
-}
-
 # Main menu.
 while true; do
 
@@ -411,7 +570,8 @@ while true; do
     echo "  [1] Install BlackArch keyring only"
     echo "  [2] Install ethical hacking environment only"
     echo "  [3] Install both BlackArch keyring and ethical hacking environment :3c"
-    echo -e "  [4] Exit :("
+    echo "  [4] Show help page and program usage."
+    echo -e "  [5] Exit :("
     echo -e "  ===========================================================================\n"
     read -rp "[ ? ] Choose an option [1-4]: " choice
 
@@ -430,11 +590,16 @@ while true; do
             break
             ;;
         4)
+            show_usage
+            break
+            ;;
+        5)
             echo -e "\n[ :3c ] Exiting setup. Goodbye! (=^w^=)/\n"
             exit 0
             ;;
         *)
             echo -e "\n[ :( ] Invalid choice. Please select a valid option.\n"
+            break
             ;;
     esac
 done
