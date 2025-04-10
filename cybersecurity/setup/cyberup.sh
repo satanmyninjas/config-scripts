@@ -39,8 +39,7 @@ if [[ "$1" == "--install" ]]; then
     fi
 
     echo "[ :3c ] Installed successfully. You can now run 'cyberup' from anywhere."
-    echo "[ ! ] If you updated this script, be sure to run ./cyberup --install to have \
-          the latest version be available system-wide."
+    echo "[ ! ] If you updated this script, be sure to run ./cyberup --install to have the latest version be available system            wide."
     exit 0
 fi
 
@@ -414,7 +413,7 @@ while true; do
     echo "  [3] Install both BlackArch keyring and ethical hacking environment :3c"
     echo -e "  [4] Exit :("
     echo -e "  ========================================================================\n"
-    read -rp " [ ? ] Choose an option [1-4]: " choice
+    read -rp "[ ? ] Choose an option [1-4]: " choice
 
     case $choice in
         1)
