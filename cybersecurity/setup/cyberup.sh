@@ -1,10 +1,10 @@
 #!/bin/bash
 
-VERSION=1.4
+VERSION=1.5.1
 YEAR=$(date +%Y)
 
-export YAY_FLAGS="--noconfirm --quiet --refresh --removemake --cleanafter"
-export PACMAN_FLAGS="--needed --noconfirm --quiet"
+export YAY_FLAGS="--quiet --needed"
+export PACMAN_FLAGS="--quiet --needed"
 
 if [ "$EUID" -eq 0 ]; then
     echo "[ :( ] Do not run this script as root. Please run as a regular user. Exiting shell script..."
@@ -21,14 +21,14 @@ if [[ "$1" == "--install" ]]; then
     fi
 
     # Copy the script to the target directory
-    echo "Installing to $INSTALL_DIR/$SCRIPT_NAME ..."
+    echo "[BUSY] Installing to $INSTALL_DIR/$SCRIPT_NAME ..."
     if [[ $EUID -ne 0 ]]; then
         sudo cp "$0" "$INSTALL_DIR/$SCRIPT_NAME" && sudo chmod +x "$INSTALL_DIR/$SCRIPT_NAME"
     else
         cp "$0" "$INSTALL_DIR/$SCRIPT_NAME" && chmod +x "$INSTALL_DIR/$SCRIPT_NAME"
     fi
 
-    echo "Installed successfully. You can now run 'cyberup' from anywhere."
+    echo "[ :3c ] Installed successfully. You can now run 'cyberup' from anywhere."
     exit 0
 fi
 
@@ -50,7 +50,7 @@ display_ASCII_header() {
     echo "  ░▒▓██████▓▒░   ░▒▓█▓▒░   ░▒▓███████▓▒░░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░        "
     echo -e "\n"
     echo -e "                        CYBERUP, v$VERSION, by SATANMYNINJAS, $YEAR                    \n"
-    echo -e "                   MIT LICENSE -- SHOUTOUT DEFCON-201 + NYC-2600 :3\n\n"
+    echo -e "                   MIT LICENSE -- SHOUTOUT DEFCON-201 + NYC-2600 :3c\n\n"
     echo -e " This script automates the installation of essential tools and utilities for a fully equipped"
     echo -e " cybersecurity, ethical hacking, reverse engineering, and forensics workstation on Arch Linux."
     echo -e " Designed with efficiency and comprehensiveness in mind, it ensures your system is ready for"
@@ -100,14 +100,13 @@ check_yay() {
 install_blackarch_keyring() {
     echo -e "\n[BUSY] Setting up BlackArch keyring and downloading bootstrap..."
     curl -O https://blackarch.org/strap.sh
-    
 
     echo "[BUSY] Adding execute permissions to strap.sh file..."
     chmod +x strap.sh
     ./strap.sh
 
     echo "[BUSY] Enabling multilib repository..."
-    sed -i '/\[multilib\]/,/Include/s/^#//' /etc/pacman.conf
+    sudo sed -i '/\[multilib\]/,/Include/s/^#//' /etc/pacman.conf
 
     echo "[BUSY] Updating package databases..."
     sudo pacman -Syu --noconfirm
@@ -137,10 +136,10 @@ install_ethical_hacking_environment() {
 
     ESSENTIAL_CORE=(
     	linux-lts linux-lts-headers grub-btrfs timeshift os-prober 
-	archlinux-keyring networkmanager network-manager-applet
+        archlinux-keyring networkmanager network-manager-applet
     	fail2ban lynis clamav clamtk smartmontools nvme-cli 
-	ethtool iw rfkillusbutils pciutils inxi dmidecode
-    	pacman-contrib downgrade pkgfile man-db man 
+        ethtool iw rfkill pciutils inxi dmidecode
+    	pacman-contrib pkgfile man-db man
     )
 
     BASE_PACKAGES=(
@@ -152,14 +151,14 @@ install_ethical_hacking_environment() {
 
     DEV_TOOLS=(
         vim gvim gcc clang gdb lldb cmake make valgrind strace 
-	ltrace python python-pip ipython jupyter-notebook
+        ltrace python python-pip ipython jupyter-notebook
         python-virtualenv jdk-openjdk maven gradle go rustup rust
         nodejs npm yarn shellcheck ruby neovim github-cli
     )
 
     CYBERSEC_TOOLS=(
         metasploit nmap wireshark-qt john hydra sqlmap nikto 
-	aircrack-ng impacket whois gnu-netcat
+        aircrack-ng impacket whois gnu-netcat
     )
 
     REVERSE_TOOLS=(
@@ -174,7 +173,7 @@ install_ethical_hacking_environment() {
 
     ETHICAL_HACKING_TOOLS=(
         hashcat kismet wifite reaver cowpatty mitmproxy
-        bettercap bully wifite
+        bettercap bully wifite chntpw
     )
 
     NETWORKING_TOOLS=(
@@ -202,17 +201,66 @@ install_ethical_hacking_environment() {
     )
 
     FONTS_THEMES=(
-        ttf-jetbrains-mono ttf-fira-code ttf-roboto-mono arc-gtk-theme
+        ttf-jetbrains-mono ttf-fira-code ttf-roboto-mono
         papirus-icon-theme noto-fonts noto-fonts-emoji noto-fonts-cjk
     )
 
     AUR_PACKAGES=(
-        gophish mullvad-vpn sddm-lain-wired-theme
+        downgrade gophish mullvad-vpn sddm-lain-wired-theme
         discord_arch_electron wordlists social-engineer-toolkit
         spiderfoot burpsuite recon-ng dnsprobe chkrootkit
         autopsy gobuster zenmap responder retdec extundelete guymager
         crunch sherlock-git phoneinfoga-bin osintgram dcfldd
         simplescreenrecorder binaryninja-free zoom otf-monocraft
+        beef-xss ccrypt chirp-next code-translucent cutecom
+        dumpsterdiver-git exploitdb-bin-sploits-git exploitdb-papers-git
+       	extundelete fatcat ferret-sidejack gr-osmosdr-git gss-ntlmssp gtkhash   
+        hamster-sidejack havoc hubble-bin hyperion.ng-git instaloader joplin
+        libfreefare-git merlin miredo nmapsi4 ophcrack owl peass-ng
+        pocsuite3 powershell powershell-empire python-ldapdomaindump
+        readpe rephrase robotstxt sendemail sliver sparrow-wifi-git
+        spire-bin swaks tightvnc tnscmd10g vboot-utils vopono waybackpy
+       	whatmask wifipumpkin3-git wordlists xmount zerofree
+    )
+
+    KALI_TOOLS_EXTRACTED=(
+        7zip arp-scan arpwatch atftp axel bettercap binwalk bluez
+        bully cabextract cadaver capstone cherrytree chntpw cilium-cli
+        clamav cosign cowpatty curlftpfs darkstat dbeaver ddrescue dos2unix
+        dsniff eksctl ettercap expect exploitdb ext3grep fcrackzip findomain
+        flashrom foremost fping freeradius ghidra git gitleaks gnu-netcat
+        gnuradio gpart gparted gptfdisk gsocket hackrf hashcat hashcat-utils
+        hcxtools hurl hydra impacket inspectrum libpst lynis masscan mc
+        nasm nbtscan ncrack netscanner openvpn p0f pdfcrack pixiewps python-pipx
+        python-virtualenv radare2 rarcrack routersploit ruby-rake seclists
+        skipfish smbclient smtp-user-enum snmpcheck splint sqlite sqlmap
+        ssldump sslscan steghide tcpdump testdisk thc-ipv6 tor traceroute
+        unicornscan wafw00f wireshark-qt wpscan zaproxy zim zsh-autosuggestions
+        zsh-syntax-highlighting lvm2 nfs-utils 0trace above aesfix aeskeyfind afflib
+        airgeddon altdns amap amass apache-users arjun armitage asleap assetfinder autopsy autorecon
+        bed bettercap-ui bing-ip2hosts bloodhound bloodyad blue-hydra bluelog
+        blueranger bluesnarfer braa bruteforce-luks bruteforce-salted-openssl
+        bruteforce-wallet brutespray btscanner bulk-extractor burpsuite
+        bytecode-viewer certgraph certi cewl chainsaw chisel
+        cisco-torch cookie-cadger crackmapexec crowbar cuckoo cutter
+        darkdump dcfldd det dirb dirbuster dnsenum dnsmap dnsrecon
+        dnstracer doona eapmd5pass edb-debugger enum4linux-ng enumiax
+        fern-wifi-cracker fierce flawfinder
+        fs-nyarl ghost-phisher goofile gospider gqrx hash-identifier
+        haystack hexinject httprint intersect inurlbr
+        johnny killerbee kismet legion
+        linux-exploit-suggester mac-robber magicrescue maltego maryam maskprocessor
+        massdns mdbtools memdump metagoofil mfcuk mimikatz missidentify mitm6 multimac
+        myrescue naabu netdiscover netexec netmask netsed nextnet nishang nuclei o-saft
+        ohrwurm ollydbg onesixtyone oscanner osrframework outguess pack pacu padbuster
+        paros parsero pasco passdetective patator payloadsallthethings pdf-parser pdfid
+        perl-cisco-copyconfig phishery photon pip3line pkt2flow plecost polenum
+        powerfuzzer proxmark3 pwnat pyrit rainbowcrack rcracki_mt rsmangler
+        rtpbreak sakis3g set shellnoob siparmyknife skiptracer sn0int sparta
+        spooftooph sqlninja sqlsus sslcaudit sslsplit sublist3r termineter thc-pptp-bruter
+        tlssled twofi u3-pwn unicornscan vega veil villain vinetto vlan voiphopper
+        wafw00f wapiti wce webacoo webscarab webshells weevely wfuzz whatweb
+        wifi-honey wifiphisher wig windows-binaries windows-privesc-check winregfs xplico
     )
 
     # Modifying Arch Linux mirrors to be set to the US, checking
@@ -237,22 +285,23 @@ install_ethical_hacking_environment() {
     sudo pacman -S $PACMAN_FLAGS "${NOTETAKING_REPORT_TOOLS[@]}"
     sudo pacman -S $PACMAN_FLAGS "${EXTRAS[@]}"
     sudo pacman -S $PACMAN_FLAGS "${FONTS_THEMES[@]}"
-    echo -e "[ :3 ] Holy fuck it finished.\n"
+    sudo pacman -S $PACMAN_FLAGS "${KALI_TOOLS_EXTRACTED[@]}"
+    echo -e "\n[ :3 ] Holy fuck it finished.\n"
 
     # Check yay availability.
     check_yay
 
     # Begin package installation and update logic using $YAY_CMD.
     echo -e "\n[BUSY] Updating AUR databases (output is set to quiet)..."
-    $YAY_CMD -Syu --noconfirm
+    $YAY_CMD -Syu
     echo -e "[ :3 ] Done updating AUR databases.\n"
 
     echo -e "\n[BUSY] Installing AUR packages..."
-    $YAY_CMD $YAY_FLAGS -S "${AUR_PACKAGES[@]}"
+    $YAY_CMD -S $YAY_FLAGS "${AUR_PACKAGES[@]}"
     echo -e "[ :3 ] Done installing all AUR packages.\n"
 
     echo -e "\n[BUSY] Updating system..."
-    sudo pacman -Syu --noconfirm
+    sudo pacman -Syu
     echo -e "[ :3 ] Done updating system.\n"
 
     echo -e "\n[ :3c ] Ethical hacking environment setup complete!\n"
@@ -288,7 +337,7 @@ while true; do
             break
             ;;
         4)
-            echo -e "\n[ :3c ] Exiting setup. Goodbye! (^_^)/\n"
+            echo -e "\n[ :3c ] Exiting setup. Goodbye! (=^w^=)/\n"
             exit 0
             ;;
         *)
