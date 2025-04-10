@@ -407,12 +407,12 @@ while true; do
 
     display_ASCII_header
     echo "           CYBERUP Arch Linux Workstation Setup Script, v$VERSION"
-    echo "  ========================================================================"
+    echo "  ==========================================================================="
     echo "  [1] Install BlackArch keyring only"
     echo "  [2] Install ethical hacking environment only"
     echo "  [3] Install both BlackArch keyring and ethical hacking environment :3c"
     echo -e "  [4] Exit :("
-    echo -e "  ========================================================================\n"
+    echo -e "  ===========================================================================\n"
     read -rp "[ ? ] Choose an option [1-4]: " choice
 
     case $choice in
