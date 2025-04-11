@@ -1,10 +1,40 @@
 #!/bin/bash
 
-VERSION=2.2
+VERSION=2.6
 YEAR=$(date +%Y)
 
 LOG_ERRORS=false
 LOG_FILE="$HOME/cyberup-error.log"
+
+## ----------------------------------------------------------------------------
+## NAME
+##     PACMAN_FLAGS - default pacman installation flags.
+##     YAY_FLAGS - default yay installation flags for AUR packages.
+##
+## SYNOPSIS
+##     export PACMAN_FLAGS="flags..."
+##     export YAY_FLAGS="flags..."
+##
+## DESCRIPTION
+##     Defines default flags used by pacman for all package installations.
+##
+##     --needed       Skip reinstalling up-to-date packages.
+##     --color=auto   Enable color output if supported.
+##     --noconfirm    Disable all confirmation prompts (non-interactive).
+##
+##     Defines default flags used by yay (AUR helper) for installing packages.
+##
+##     --needed       Skip reinstalling up-to-date packages.
+##     --noconfirm    Disable all confirmation prompts (non-interactive).
+##     --batchinstall Install all packages in one go to improve speed.
+##     --removemake   Remove unneeded make dependencies after build.
+##     --cleanafter   Auto-clean build cache after install.
+##     --color=auto   Enable color output if supported.
+##     --pgpfetch     Auto-fetch missing package signing keys (PGP).
+##
+## AUTHOR
+##     Written by SATANMYNINJAS [DEFCON201] [nyc2600]
+## ----------------------------------------------------------------------------
 
 export PACMAN_FLAGS="--needed --color=auto --noconfirm"
 export YAY_FLAGS="--needed --noconfirm --batchinstall --removemake --cleanafter --color=auto --pgpfetch"
@@ -21,54 +51,59 @@ export YAY_FLAGS="--needed --noconfirm --batchinstall --removemake --cleanafter 
 ##     and program information for the cyberup script.
 ##
 ## AUTHOR
-##     Written by SATANMYNINJAS.
+##     Written by SATANMYNINJAS [DEFCON201] [nyc2600]
 ## ----------------------------------------------------------------------------
+
 show_usage() {
     cat << EOF
 
-cyberup - Arch Linux Cybersecurity Workstation Installer v$VERSION
-by SATANMYNINJAS [DEFCON201] [nyc2600]
+NAME
+    show_usage - display program usage instructions.
 
-Usage:
-  cyberup [OPTION]
+SYNOPSIS
+    cyberup [OPTION]
 
-Options:
-  --install[=PATH]    Install this script system-wide (default: /usr/local/bin).
-  --update            Download and replace the current script with the latest version.
-  --log-errors        Enable error/warning logging to \$HOME/cyberup-error.log.
-  --help              Show this help message and exit.
+DESCRIPTION
+    cyberup automates the setup of an Arch Linux cybersecurity,
+    ethical hacking, and digital forensics workstation.
 
-Interactive Menu:
-  [1] Install BlackArch keyring only
-  [2] Install ethical hacking environment only
-  [3] Install both BlackArch keyring and ethical hacking environment
-  [4] Show this help page
-  [5] Exit
+OPTIONS
+    --install[=PATH]
+        Install cyberup system-wide (default: /usr/local/bin).
 
-Description:
-  cyberup automates the installation of a complete Arch Linux cybersecurity
-  workstation, suitable for ethical hacking, forensics, reverse engineering,
-  and security research.
+    --update
+        Download and replace cyberup with the latest version.
 
-Features:
-  - Installs categorized packages (core, dev, pentest, forensics, etc)
-  - Fetches tools from official repos, BlackArch, and the AUR
-  - Handles pacman keyring updates and AUR PGP fetching
-  - Optionally refreshes Arch mirrors based on your detected country
-  - Provides an optional error log for troubleshooting
-  - Supports auto-updating the script from GitHub
+    --log-errors
+        Enable logging of warnings and errors to \$HOME/cyberup-error.log.
 
-Examples:
-  ./cyberup.sh --help
-  ./cyberup.sh --install
-  ./cyberup.sh --log-errors
-  ./cyberup.sh --update
+    --help
+        Display this help message and exit.
 
-License:
-  MIT License — Shoutout DEFCON-201 + NYC-2600 :3c
+FEATURES
+    - Installs categorized tools (core, dev, pentest, forensics, etc).
+    - Fetches tools from Arch repos, BlackArch, and the AUR.
+    - Optionally refreshes pacman mirrors based on your region.
+    - Automatically updates pacman keyring and AUR PGP keys.
+    - Generates manpage and installs to /usr/share/man/man1.
+    - Optional error logging with --log-errors flag.
 
-Repository:
-  https://gist.github.com/<your-username>/<gist-id>
+EXAMPLES
+    ./cyberup.sh --help
+    ./cyberup.sh --install
+    ./cyberup.sh --log-errors
+    ./cyberup.sh --update
+
+AUTHOR
+    Written by SATANMYNINJAS [DEFCON201] [nyc2600]
+
+LICENSE
+    MIT License
+
+REPOSITORY
+    https://raw.githubusercontent.com/satanmyninjas/config-scripts/refs/heads/main/cybersecurity/setup/cyberup.sh
+
+real hackers RTFM teehee :3
 
 EOF
 }
@@ -90,7 +125,7 @@ EOF
 ##         Message string to log.
 ##
 ## AUTHOR
-##     Written by SATANMYNINJAS.
+##     Written by SATANMYNINJAS [DEFCON201] [nyc2600]
 ## ----------------------------------------------------------------------------
 log_error() {
     local msg="$1"
@@ -112,7 +147,7 @@ log_error() {
 ##     and overwrites the local copy. Sets execute permissions.
 ##
 ## AUTHOR
-##     Written by SATANMYNINJAS.
+##     Written by SATANMYNINJAS [DEFCON201] [nyc2600]
 ## ----------------------------------------------------------------------------
 update_cyberup() {
     echo -e "\n[ BUSY ] Checking for cyberup script updates...\n"
@@ -179,84 +214,6 @@ pacman(8), yay(1), reflector(1)
 EOF
 }
 
-
-if [ "$EUID" -eq 0 ]; then
-    echo "[ :( ] Do not run this script as root. Please run as a regular user. Exiting shell script..."
-    exit 1
-fi
-
-if [[ "$1" == "--install" || "$1" == --install=* ]]; then
-    INSTALL_DIR="/usr/local/bin"
-    MANPAGE_DIR="/usr/share/man/man1"
-    SCRIPT_NAME="cyberup"
-
-    if [[ "$1" == --install=* ]]; then
-        INSTALL_DIR="${1#--install=}"
-    fi
-
-    echo "[ BUSY ] Installing to $INSTALL_DIR/$SCRIPT_NAME ..."
-    sudo cp "$0" "$INSTALL_DIR/$SCRIPT_NAME"
-    sudo chmod +x "$INSTALL_DIR/$SCRIPT_NAME"
-
-    echo "[ BUSY ] Installing manpage to $MANPAGE_DIR ..."
-    generate_manpage | sudo tee "$MANPAGE_DIR/cyberup.1" > /dev/null
-    sudo gzip -f "$MANPAGE_DIR/cyberup.1"
-
-    echo "[ BUSY ] Updating man database ..."
-    sudo mandb
-
-    echo "[ :3c ] Installed successfully. You can now run 'cyberup' or 'man cyberup'"
-    echo "[ ! ] If you updated this script, be sure to run ./cyberup --install to have the latest version be available system wide."
-    exit 0
-fi
-
-if [[ "$1" == "--update" ]]; then
-    update_cyberup
-fi
-
-if [[ "$1" == "--help" ]] then
-    show_usage
-fi
-
-if [[ "$1" == "--log-errors" ]]; then
-    LOG_ERRORS=true
-    echo "[ :3 ] Logging enabled! Errors and warnings will be saved to: $LOG_FILE"
-    : > "$LOG_FILE"  # Wipe previous log
-fi
-
-## ----------------------------------------------------------------------------
-## NAME
-##     display_ASCII_header - print program banner.
-##
-## SYNOPSIS
-##     display_ASCII_header
-##
-## DESCRIPTION
-##     Outputs the cyberup banner, version number, license, and
-##     project purpose to the terminal.
-##
-## AUTHOR
-##     Written by SATANMYNINJAS.
-## ----------------------------------------------------------------------------
-display_ASCII_header() {
-
-    echo -e "\n\n"
-    echo "  ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓████████▓▒░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░  "
-    echo " ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
-    echo " ░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
-    echo " ░▒▓█▓▒░       ░▒▓██████▓▒░░▒▓███████▓▒░░▒▓██████▓▒░ ░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░  "
-    echo " ░▒▓█▓▒░         ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░        "
-    echo " ░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░        "
-    echo "  ░▒▓██████▓▒░   ░▒▓█▓▒░   ░▒▓███████▓▒░░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░        "
-    echo -e "\n"
-    echo -e "                        CYBERUP, v$VERSION, by SATANMYNINJAS, $YEAR                    \n"
-    echo -e "                   MIT LICENSE -- SHOUTOUT DEFCON-201 + NYC-2600 :3c\n\n"
-    echo -e " This script automates the installation of essential tools and utilities for a fully equipped"
-    echo -e " cybersecurity, ethical hacking, reverse engineering, and forensics workstation on Arch Linux."
-    echo -e " Designed with efficiency and comprehensiveness in mind, it ensures your system is ready for"
-    echo -e " coding, penetration testing, and forensic investigations with a single execution.\n"
-}
-
 ## ----------------------------------------------------------------------------
 ## NAME
 ##     check_yay - verify yay is installed and usable.
@@ -269,7 +226,7 @@ display_ASCII_header() {
 ##     Falls back to /tmp/yay if available. Logs errors and exits if not found.
 ##
 ## AUTHOR
-##     Written by SATANMYNINJAS.
+##     Written by SATANMYNINJAS [DEFCON201] [nyc2600]
 ## ----------------------------------------------------------------------------
 check_yay() {
     if command -v yay >/dev/null 2>&1; then
@@ -308,7 +265,7 @@ check_yay() {
 ##     and repository. Enables multilib support. Refreshes pacman database.
 ##
 ## AUTHOR
-##     Written by SATANMYNINJAS.
+##     Written by SATANMYNINJAS [DEFCON201] [nyc2600]
 ## ----------------------------------------------------------------------------
 install_blackarch_keyring() {
     echo -e "\n[ BUSY ] Setting up BlackArch keyring and downloading bootstrap...\n"
@@ -343,7 +300,7 @@ install_blackarch_keyring() {
 ##     package databases. Optionally logs warnings/errors to file.
 ##
 ## AUTHOR
-##     Written by SATANMYNINJAS.
+##     Written by SATANMYNINJAS [DEFCON201] [nyc2600]
 ## ----------------------------------------------------------------------------
 install_ethical_hacking_environment() {
     echo -e "\n[ BUSY ] Installing ethical hacking environment..."
@@ -458,17 +415,13 @@ install_ethical_hacking_environment() {
         bed bettercap-ui bing-ip2hosts bloodhound bloodyad blue-hydra bluelog
         blueranger bluesnarfer braa bruteforce-luks bruteforce-salted-openssl
         bruteforce-wallet brutespray btscanner bulk-extractor burpsuite
-        bytecode-viewer certgraph certi cewl chainsaw chisel
-        cisco-torch cookie-cadger crackmapexec crowbar cuckoo cutter
-        darkdump dcfldd det dirb dirbuster dnsenum dnsmap dnsrecon
+        bytecode-viewer certgraph certi cewl chainsaw chisel cisco-torch cookie-cadger
+        crackmapexec crowbar cuckoo cutter darkdump dcfldd det dirb dirbuster dnsenum dnsmap dnsrecon
         dnstracer doona eapmd5pass edb-debugger enum4linux-ng enumiax
-        fern-wifi-cracker fierce flawfinder
-        fs-nyarl ghost-phisher goofile gospider gqrx hash-identifier
-        haystack hexinject httprint intersect inurlbr
-        johnny killerbee kismet legion
-        linux-exploit-suggester mac-robber magicrescue maltego maryam maskprocessor
-        massdns mdbtools memdump metagoofil mfcuk mimikatz missidentify mitm6 multimac
-        myrescue naabu netdiscover netexec netmask netsed nextnet nishang nuclei o-saft
+        fern-wifi-cracker fierce flawfinder fs-nyarl ghost-phisher goofile gospider gqrx hash-identifier
+        haystack hexinject httprint intersect inurlbr johnny killerbee kismet legion linux-exploit-suggester
+        mac-robber magicrescue maltego maryam maskprocessor massdns mdbtools memdump metagoofil mfcuk mimikatz
+        missidentify mitm6 multimac myrescue naabu netdiscover netexec netmask netsed nextnet nishang nuclei o-saft
         ohrwurm ollydbg onesixtyone oscanner osrframework outguess pack pacu padbuster
         paros parsero pasco passdetective patator payloadsallthethings pdf-parser pdfid
         perl-cisco-copyconfig phishery photon pip3line pkt2flow plecost polenum
@@ -489,7 +442,6 @@ install_ethical_hacking_environment() {
         sudo pacman -S $PACMAN_FLAGS reflector
     fi
 
-
     # Prompt to refresh Arch mirrors using reflector.
     read -rp "[ ? ] Do you want to refresh your Arch mirrors with the fastest mirrors for your region? [y/N] " refresh_mirrors
 
@@ -500,7 +452,7 @@ install_ethical_hacking_environment() {
         user_country=$(curl -s https://ipinfo.io/country || echo "US")
         user_country=${user_country//[$'\t\r\n']}  # Trim whitespace
 
-        echo "[ :3 ] Detected country: $user_country"
+        echo -e "\n[ :3 ] Detected country: $user_country\n"
 
         echo -e "\n[ BUSY ] Backing up current mirrorlist...\n"
         sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak.$(date +%Y%m%d)
@@ -561,21 +513,136 @@ install_ethical_hacking_environment() {
     echo -e "\n[ :3c ] Ethical hacking environment setup complete!\n"
 }
 
+## ----------------------------------------------------------------------------
+## NAME
+##     display_ASCII_header - print program banner.
+##
+## SYNOPSIS
+##     display_ASCII_header
+##
+## DESCRIPTION
+##     Outputs the cyberup banner, version number, license, and
+##     project purpose to the terminal.
+##
+## AUTHOR
+##     Written by SATANMYNINJAS [DEFCON201] [nyc2600]
+## ----------------------------------------------------------------------------
+display_ASCII_header() {
+
+    echo -e "\n\n"
+    echo "  ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓████████▓▒░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░  "
+    echo " ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
+    echo " ░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
+    echo " ░▒▓█▓▒░       ░▒▓██████▓▒░░▒▓███████▓▒░░▒▓██████▓▒░ ░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░  "
+    echo " ░▒▓█▓▒░         ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░        "
+    echo " ░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░        "
+    echo "  ░▒▓██████▓▒░   ░▒▓█▓▒░   ░▒▓███████▓▒░░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░        "
+    echo -e "\n"
+    echo -e "                        CYBERUP, v$VERSION, by SATANMYNINJAS, $YEAR                    \n"
+    echo -e "                   MIT LICENSE -- SHOUTOUT DEFCON-201 + NYC-2600 :3c\n\n"
+    echo -e " This script automates the installation of essential tools and utilities for a fully equipped"
+    echo -e " cybersecurity, ethical hacking, reverse engineering, and forensics workstation on Arch Linux."
+    echo -e " Designed with efficiency and comprehensiveness in mind, it ensures your system is ready for"
+    echo -e " coding, penetration testing, and forensic investigations with a single execution.\n"
+}
+
+## ----------------------------------------------------------------------------
+## NAME
+##     print_hacker_quote - display a random hacker quote.
+##
+## SYNOPSIS
+##     print_hacker_quote
+##
+## DESCRIPTION
+##     Outputs a randomly selected quote from hacker history, culture,
+##     or cybersecurity folklore. Used for fun and vibe.
+##
+## AUTHOR
+##     Written by SATANMYNINJAS [DEFCON201] [nyc2600]
+## ----------------------------------------------------------------------------
+print_hacker_quote() {
+    local quotes=(
+        "<theplague> there is no right and wrong. there's only fun and boring."
+        "<ZeroCool> mess with the best, die like the rest."
+        "<CerealKiller> FYI man, you could sit at home, do absolutely nothing, and your name goes through like 17 computers a day."
+        "<Razor> remember, hacking is more than just a crime. it's a survival trait."
+        "<AgentBob> 'this is our world now. the world of the electron and the switch...' (The Hacker's Manifesto)"
+        "<LordNikon> you're in the butter zone now, baby."
+        "<AcidBurn> never send a boy to do a woman's job."
+        "<CerealKiller> spandex: it's a privilege, not a right."
+        "<ZeroCool> HACK THE PLANET!!!"
+        "<CerealKiller> we have no names, man. no names. we are nameless!"
+    )
+    local count=${#quotes[@]}
+    local random_index=$(( RANDOM % count ))
+    echo -e "\n${quotes[$random_index]}\n"
+}
+
+# Check if script runs as root; exit if true.
+if [ "$EUID" -eq 0 ]; then
+    echo "[ :( ] Do not run this script as root. Please run as a regular user. Exiting shell script..."
+    exit 1
+fi
+
+# Handle local install logic and generates manpage.
+if [[ "$1" == "--install" || "$1" == --install=* ]]; then
+    INSTALL_DIR="/usr/local/bin"
+    MANPAGE_DIR="/usr/share/man/man1"
+    SCRIPT_NAME="cyberup"
+
+    if [[ "$1" == --install=* ]]; then
+        INSTALL_DIR="${1#--install=}"
+    fi
+
+    echo "[ BUSY ] Installing to $INSTALL_DIR/$SCRIPT_NAME ..."
+    sudo cp "$0" "$INSTALL_DIR/$SCRIPT_NAME"
+    sudo chmod +x "$INSTALL_DIR/$SCRIPT_NAME"
+
+    echo "[ BUSY ] Installing manpage to $MANPAGE_DIR ..."
+    generate_manpage | sudo tee "$MANPAGE_DIR/cyberup.1" > /dev/null
+    sudo gzip -f "$MANPAGE_DIR/cyberup.1"
+
+    echo "[ BUSY ] Updating man database ..."
+    sudo mandb
+
+    echo "[ :3c ] Installed successfully. You can now run 'cyberup' or 'man cyberup'"
+    echo "[ ! ] If you updated this script, be sure to run ./cyberup --install to have the latest version be available system wide."
+    exit 0
+fi
+
+# Pulls from GitHub repo to update script.
+if [[ "$1" == "--update" ]]; then
+    update_cyberup
+fi
+
+# Shows help message.
+if [[ "$1" == "--help" ]] then
+    show_usage
+fi
+
+# Logs errors to a file.
+if [[ "$1" == "--log-errors" ]]; then
+    LOG_ERRORS=true
+    echo "[ :3 ] Logging enabled! Errors and warnings will be saved to: $LOG_FILE"
+    : > "$LOG_FILE"  # Wipe previous log
+fi
+
 # Main menu.
 while true; do
 
     clear
 
     display_ASCII_header
-    echo "           CYBERUP Arch Linux Workstation Setup Script, v$VERSION"
-    echo "  ==========================================================================="
-    echo "  [1] Install BlackArch keyring only"
-    echo "  [2] Install ethical hacking environment only"
-    echo "  [3] Install both BlackArch keyring and ethical hacking environment :3c"
-    echo "  [4] Show help page and program usage."
-    echo -e "  [5] Exit :("
-    echo -e "  ===========================================================================\n"
-    read -rp "[ ? ] Choose an option [1-4]: " choice
+    echo     "           CYBERUP Arch Linux Workstation Setup Script, v$VERSION"
+    echo     "  ==========================================================================="
+    echo     "  [1] Install BlackArch keyring only."
+    echo     "  [2] Install ethical hacking environment only."
+    echo     "  [3] Install both BlackArch keyring and ethical hacking environment. :3c"
+    echo     "  [4] Show help page and program usage."
+    echo     "  [5] Give me some wisdom!"
+    echo     "  [6] Exit :("
+    echo -e  "  ===========================================================================\n"
+    read -rp "[ ? ] Choose an option [1-5]: " choice
 
     case $choice in
         1)
@@ -596,6 +663,11 @@ while true; do
             break
             ;;
         5)
+            echo -e "[ :3 ] Here's some wisdom for today..."
+            print_hacker_quote
+            exit 0
+            ;;
+        6)
             echo -e "\n[ :3c ] Exiting setup. Goodbye! (=^w^=)/\n"
             exit 0
             ;;
