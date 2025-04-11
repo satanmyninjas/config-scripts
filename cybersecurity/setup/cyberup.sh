@@ -307,130 +307,63 @@ install_ethical_hacking_environment() {
     echo -e "[ (0_o\") ] You might wanna grab a coffee. This can take a bit...\n"
 
     ESSENTIAL_CORE=(
-    	linux-lts linux-lts-headers grub-btrfs timeshift os-prober
-        archlinux-keyring networkmanager network-manager-applet
-    	fail2ban lynis clamav clamtk smartmontools nvme-cli
-        ethtool iw rfkill pciutils inxi dmidecode
-    	pacman-contrib pkgfile man-db man
+    	linux-lts linux-lts-headers grub-btrfs timeshift os-prober archlinux-keyring networkmanager network-manager-applet fail2ban lynis clamav clamtk smartmontools nvme-cli ethtool iw rfkill pciutils inxi dmidecode pacman-contrib pkgfile man-db man
     )
 
     BASE_PACKAGES=(
-        base-devel git wget curl unzip zip p7zip
-        htop neofetch tmux fish fzf fd ripgrep btop
-        binutils nasm testdisk iputils traceroute bind
-        reflector screen
+        base-devel git wget curl unzip zip p7zip htop neofetch tmux fish fzf fd ripgrep btop binutils nasm testdisk iputils traceroute bind reflector screen
     )
 
     DEV_TOOLS=(
-        vim gvim gcc clang gdb lldb cmake make valgrind strace
-        ltrace python python-pip ipython jupyter-notebook
-        python-virtualenv jdk-openjdk maven gradle go rustup rust
-        nodejs npm yarn shellcheck ruby neovim github-cli
+        vim gvim gcc clang gdb lldb cmake make valgrind strace ltrace python python-pip ipython jupyter-notebook python-virtualenv jdk-openjdk maven gradle go rustup rust nodejs npm yarn shellcheck ruby neovim github-cli
     )
 
     CYBERSEC_TOOLS=(
-        metasploit nmap wireshark-qt john hydra sqlmap nikto
-        aircrack-ng impacket whois gnu-netcat
+        metasploit nmap wireshark-qt john hydra sqlmap nikto aircrack-ng impacket whois gnu-netcat
     )
 
     REVERSE_TOOLS=(
-        ghidra radare2 binwalk cutter gdb bless capstone lsof
-        sysdig strace hexedit ltrace
+        ghidra radare2 binwalk cutter gdb bless capstone lsof sysdig strace hexedit ltrace
     )
 
     FORENSICS_TOOLS=(
-        sleuthkit testdisk foremost btrfs-progs
-        exfat-utils volatility3 ddrescue tcpdump dsniff
+        sleuthkit testdisk foremost btrfs-progs exfat-utils volatility3 ddrescue tcpdump dsniff
     )
 
     ETHICAL_HACKING_TOOLS=(
-        hashcat kismet wifite reaver cowpatty mitmproxy
-        bettercap bully wifite aircrack-ng chntpw
+        hashcat kismet wifite reaver cowpatty mitmproxy bettercap bully wifite aircrack-ng chntpw
     )
 
     NETWORKING_TOOLS=(
-        traceroute iperf3 tcpdump openssh tmate bind openvpn
-        wireguard-tools
+        traceroute iperf3 tcpdump openssh tmate bind openvpn wireguard-tools
     )
 
     VIRTUALIZATION_TOOLS=(
-        qemu-full libvirt virt-manager docker docker-compose
-        virtualbox virtualbox-host-modules-arch vagrant edk2-ovmf
+        qemu-full libvirt virt-manager docker docker-compose virtualbox virtualbox-host-modules-arch vagrant edk2-ovmf
     )
 
     SECURITY_PRIVACY=(
-        ufw gufw veracrypt gnupg keepassxc tor torbrowser-launcher
-        rkhunter macchanger
+        ufw gufw veracrypt gnupg keepassxc tor torbrowser-launcher rkhunter macchanger
     )
 
     NOTETAKING_REPORT_TOOLS=(
-        libreoffice-fresh okular zathura zathura-pdf-poppler obsidian
-        cherrytree exploitdb
+        libreoffice-fresh okular zathura zathura-pdf-poppler obsidian cherrytree exploitdb
     )
 
     EXTRAS=(
-        ranger nnn thunar imagemagick perl-image-exiftool poppler pdftk qpdf
-        telegram-desktop
+        ranger nnn thunar imagemagick perl-image-exiftool poppler pdftk qpdf telegram-desktop
     )
 
     FONTS_THEMES=(
-        ttf-jetbrains-mono ttf-fira-code ttf-roboto-mono
-        papirus-icon-theme noto-fonts noto-fonts-emoji noto-fonts-cjk
+        ttf-jetbrains-mono ttf-fira-code ttf-roboto-mono papirus-icon-theme noto-fonts noto-fonts-emoji noto-fonts-cjk
     )
 
     AUR_PACKAGES=(
-        downgrade gophish mullvad-vpn sddm-lain-wired-theme
-        discord_arch_electron wordlists social-engineer-toolkit
-        spiderfoot burpsuite recon-ng dnsprobe chkrootkit
-        autopsy gobuster zenmap responder retdec extundelete guymager
-        crunch sherlock-git phoneinfoga-bin osintgram dcfldd
-        simplescreenrecorder binaryninja-free zoom otf-monocraft
-	    mkinitcpio-firmware powershell
-        beef-xss ccrypt chirp-next code-translucent cutecom
-        dumpsterdiver-git exploitdb-bin-sploits-git exploitdb-papers-git
-       	extundelete fatcat ferret-sidejack gr-osmosdr-git gss-ntlmssp gtkhash
-        hamster-sidejack havoc hubble-bin hyperion.ng-git instaloader joplin
-        libfreefare-git merlin miredo nmapsi4 ophcrack owl peass-ng
-        pocsuite3 powershell powershell-empire python-ldapdomaindump
-        readpe rephrase robotstxt sendemail sliver sparrow-wifi-git
-        spire-bin swaks tightvnc tnscmd10g vboot-utils vopono waybackpy
-       	whatmask wifipumpkin3-git wordlists xmount zerofree
+        downgrade gophish mullvad-vpn sddm-lain-wired-theme discord_arch_electron wordlists social-engineer-toolkit spiderfoot burpsuite recon-ng dnsprobe chkrootkit autopsy gobuster zenmap responder retdec extundelete guymager crunch sherlock-git phoneinfoga-bin osintgram dcfldd simplescreenrecorder binaryninja-free zoom otf-monocraft mkinitcpio-firmware powershell beef-xss ccrypt chirp-next code-translucent cutecom dumpsterdiver-git exploitdb-bin-sploits-git exploitdb-papers-git extundelete fatcat ferret-sidejack gr-osmosdr-git gss-ntlmssp gtkhash hamster-sidejack havoc hubble-bin hyperion.ng-git instaloader joplin libfreefare-git merlin miredo nmapsi4 ophcrack owl peass-ng pocsuite3 powershell powershell-empire python-ldapdomaindump readpe rephrase robotstxt sendemail sliver sparrow-wifi-git spire-bin swaks tightvnc tnscmd10g vboot-utils vopono waybackpy whatmask wifipumpkin3-git wordlists xmount zerofree
     )
 
     KALI_TOOLS_EXTRACTED=(
-        7zip arp-scan arpwatch atftp axel bettercap binwalk bluez
-        bully cabextract cadaver capstone cherrytree chntpw cilium-cli
-        clamav cosign cowpatty curlftpfs darkstat dbeaver ddrescue dos2unix
-        dsniff eksctl ettercap expect exploitdb ext3grep fcrackzip findomain
-        flashrom foremost fping freeradius ghidra git gitleaks gnu-netcat
-        gnuradio gpart gparted gptfdisk gsocket hackrf hashcat hashcat-utils
-        hcxtools hurl hydra impacket inspectrum libpst lynis masscan mc
-        nasm nbtscan ncrack netscanner openvpn p0f pdfcrack pixiewps python-pipx
-        python-virtualenv radare2 rarcrack routersploit ruby-rake seclists
-        skipfish smbclient smtp-user-enum snmpcheck splint sqlite sqlmap
-        ssldump sslscan steghide tcpdump testdisk thc-ipv6 tor traceroute
-        unicornscan wafw00f wireshark-qt wpscan zaproxy zim zsh-autosuggestions
-        zsh-syntax-highlighting lvm2 nfs-utils 0trace above aesfix aeskeyfind afflib
-        airgeddon altdns amap amass apache-users arjun armitage asleap assetfinder autopsy autorecon
-        bed bettercap-ui bing-ip2hosts bloodhound bloodyad blue-hydra bluelog
-        blueranger bluesnarfer braa bruteforce-luks bruteforce-salted-openssl
-        bruteforce-wallet brutespray btscanner bulk-extractor burpsuite
-        bytecode-viewer certgraph certi cewl chainsaw chisel cisco-torch cookie-cadger
-        crackmapexec crowbar cuckoo cutter darkdump dcfldd det dirb dirbuster dnsenum dnsmap dnsrecon
-        dnstracer doona eapmd5pass edb-debugger enum4linux-ng enumiax
-        fern-wifi-cracker fierce flawfinder fs-nyarl ghost-phisher goofile gospider gqrx hash-identifier
-        haystack hexinject httprint intersect inurlbr johnny killerbee kismet legion linux-exploit-suggester
-        mac-robber magicrescue maltego maryam maskprocessor massdns mdbtools memdump metagoofil mfcuk mimikatz
-        missidentify mitm6 multimac myrescue naabu netdiscover netexec netmask netsed nextnet nishang nuclei o-saft
-        ohrwurm ollydbg onesixtyone oscanner osrframework outguess pack pacu padbuster
-        paros parsero pasco passdetective patator payloadsallthethings pdf-parser pdfid
-        perl-cisco-copyconfig phishery photon pip3line pkt2flow plecost polenum
-        powerfuzzer proxmark3 pwnat pyrit rainbowcrack rcracki_mt rsmangler
-        rtpbreak sakis3g set shellnoob siparmyknife skiptracer sn0int sparta
-        spooftooph sqlninja sqlsus sslcaudit sslsplit sublist3r termineter thc-pptp-bruter
-        tlssled twofi u3-pwn unicornscan vega veil villain vinetto vlan voiphopper
-        wafw00f wapiti wce webacoo webscarab webshells weevely wfuzz whatweb
-        wifi-honey wifiphisher wig windows-binaries windows-privesc-check winregfs xplico
+        7zip arp-scan arpwatch atftp axel bettercap binwalk bluez bully cabextract cadaver capstone cherrytree chntpw cilium-cli clamav cosign cowpatty curlftpfs darkstat dbeaver ddrescue dos2unix dsniff eksctl ettercap expect exploitdb ext3grep fcrackzip findomain flashrom foremost fping freeradius ghidra git gitleaks gnu-netcat gnuradio gpart gparted gptfdisk gsocket hackrf hashcat hashcat-utils hcxtools hurl hydra impacket inspectrum libpst lynis masscan mc nasm nbtscan ncrack netscanner openvpn p0f pdfcrack pixiewps python-pipx python-virtualenv radare2 rarcrack routersploit ruby-rake seclists skipfish smbclient smtp-user-enum snmpcheck splint sqlite sqlmap ssldump sslscan steghide tcpdump testdisk thc-ipv6 tor traceroute unicornscan wafw00f wireshark-qt wpscan zaproxy zim zsh-autosuggestions zsh-syntax-highlighting lvm2 nfs-utils 0trace above aesfix aeskeyfind afflib airgeddon altdns amap amass apache-users arjun armitage asleap assetfinder autopsy autorecon bed bettercap-ui bing-ip2hosts bloodhound bloodyad blue-hydra bluelog blueranger bluesnarfer braa bruteforce-luks bruteforce-salted-openssl bruteforce-wallet brutespray btscanner bulk-extractor burpsuite bytecode-viewer certgraph certi cewl chainsaw chisel cisco-torch cookie-cadger crackmapexec crowbar cuckoo cutter darkdump dcfldd det dirb dirbuster dnsenum dnsmap dnsrecon dnstracer doona eapmd5pass edb-debugger enum4linux-ng enumiax fern-wifi-cracker fierce flawfinder fs-nyarl ghost-phisher goofile gospider gqrx hash-identifier haystack hexinject httprint intersect inurlbr johnny killerbee kismet legion linux-exploit-suggester mac-robber magicrescue maltego maryam maskprocessor massdns mdbtools memdump metagoofil mfcuk mimikatz missidentify mitm6 multimac myrescue naabu netdiscover netexec netmask netsed nextnet nishang nuclei o-saft ohrwurm ollydbg onesixtyone oscanner osrframework outguess pack pacu padbuster paros parsero pasco passdetective patator payloadsallthethings pdf-parser pdfid perl-cisco-copyconfig phishery photon pip3line pkt2flow plecost polenum powerfuzzer proxmark3 pwnat pyrit rainbowcrack rcracki_mt rsmangler rtpbreak sakis3g set shellnoob siparmyknife skiptracer sn0int sparta spooftooph sqlninja sqlsus sslcaudit sslsplit sublist3r termineter thc-pptp-bruter tlssled twofi u3-pwn unicornscan vega veil villain vinetto vlan voiphopper wafw00f wapiti wce webacoo webscarab webshells weevely wfuzz whatweb wifi-honey wifiphisher wig windows-binaries windows-privesc-check winregfs xplico
     )
 
     echo -e "\n[ BUSY ] Updating keyring first...\n"
