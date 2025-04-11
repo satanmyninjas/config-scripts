@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=2.6
+VERSION=2.6.1
 YEAR=$(date +%Y)
 
 LOG_ERRORS=false
@@ -596,7 +596,7 @@ while true; do
             break
             ;;
         5)
-            echo -e "[ :3 ] Here's some wisdom for today..."
+            echo "[ :3 ] Here's some wisdom for today..."
             print_hacker_quote
             exit 0
             ;;
