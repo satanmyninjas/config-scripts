@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=2.6.1
+VERSION=2.6.2
 YEAR=$(date +%Y)
 
 LOG_ERRORS=false
@@ -347,7 +347,7 @@ install_ethical_hacking_environment() {
     )
 
     NOTETAKING_REPORT_TOOLS=(
-        libreoffice-fresh okular zathura zathura-pdf-poppler obsidian cherrytree exploitdb
+        libreoffice-fresh okular zathura zathura-pdf-poppler obsidian cherrytree exploitdb rnote
     )
 
     EXTRAS=(
