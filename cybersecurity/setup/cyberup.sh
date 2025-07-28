@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=2.6.2
+VERSION=2.6.3
 YEAR=$(date +%Y)
 
 LOG_ERRORS=false
@@ -204,7 +204,6 @@ Display usage help and exit.
 .SH AUTHOR
 Written by SATANMYNINJAS.
 GitHub Repo: https://github.com/satanmyninjas/config-scripts/blob/main/cybersecurity/setup/cyberup.sh
-Gist: https://gist.github.com/satanmyninjas/0a9249ad6e13c857dcd25ffa5bbd0f09
 
 .SH LICENSE
 MIT License.
@@ -505,6 +504,17 @@ print_hacker_quote() {
         "<CerealKiller> spandex: it's a privilege, not a right."
         "<ZeroCool> HACK THE PLANET!!!"
         "<CerealKiller> we have no names, man. no names. we are nameless!"
+	"<linus_t0rv41ds> talk is cheap. show me the code."
+	"<edsgar_d1kstr4> testing shows the presence, not the absence of bugs."
+	"<WH1T3R0S3> every hacker has her fixation. you hack people. i hack time."
+	"<WH1T3R0S3> the concept of waiting bewilders me. there are always deadlines. there are always ticking clocks."
+	"<samsepi0l> ...there are some people out there, and it doesn't happen a lot. it's rare. but they refuse to let you hate them. in fact, they care about you in spite of it. and the really special ones, they're relentless at it. doesn't matter what you do to them. they take it and care about you anyway. they don't abandon you, no matter how many reasons you give them. no matter how much you're practically begging them to leave. and you wanna know why? because they feel something for me that i can't -- they love me. and for all the pain i've been through, that heals me. maybe not instantly. maybe not even for a long time, but it heals."
+	"<samsepi0l> what if changing the world was just about being here, by showing up no matter how many times we get told we don’t belong, by staying true even when we’re shamed into being false, by believing in ourselves even when we’re told we’re too different? and if we all held on to that, if we refuse to budge and fall in line, if we stood our ground for long enough, just maybe...the world can’t help but change around us."
+	"<mr_r0b0t> exciting times in the world...exciting times."
+	"<L30N> existence could be beautiful,  or it could be ugly. but that's on you."
+	"<samsepi0l> a bug is never just a mistake. it represents something bigger. an error of thinking that makes you who you are."
+	"<mr_r0b0t> are you a one or a zero? that's the question you have to ask yourself. are you a yes or a no? are you going to act or not?"
+	"<g30rg3_c4rr3t3> first learn computer science and all the theory. next develop a programming style. then forget all that and just hack."
     )
     local count=${#quotes[@]}
     local random_index=$(( RANDOM % count ))
@@ -513,7 +523,7 @@ print_hacker_quote() {
 
 # Check if script runs as root; exit if true.
 if [ "$EUID" -eq 0 ]; then
-    echo "[ :( ] Do not run this script as root. Please run as a regular user. Exiting shell script..."
+    echo "[ :( ] Do not run this script as root. Please run as a regular user. Exiting shell script...\n"
     exit 1
 fi
 
@@ -539,7 +549,7 @@ if [[ "$1" == "--install" || "$1" == --install=* ]]; then
     sudo mandb
 
     echo "[ :3c ] Installed successfully. You can now run 'cyberup' or 'man cyberup'"
-    echo "[ ! ] If you updated this script, be sure to run ./cyberup --install to have the latest version be available system wide."
+    echo "[ ! ] If you updated this script, be sure to run ./cyberup --install to have the latest version be available system wide. Exiting cleanly...\n"
     exit 0
 fi
 
@@ -575,7 +585,7 @@ while true; do
     echo     "  [5] Give me some wisdom!"
     echo     "  [6] Exit :("
     echo -e  "  ===========================================================================\n"
-    read -rp "[ ? ] Choose an option [1-5]: " choice
+    read -rp " [ ? ] Choose an option [1-5]: " choice
 
     case $choice in
         1)
@@ -598,7 +608,7 @@ while true; do
         5)
             echo "[ :3 ] Here's some wisdom for today..."
             print_hacker_quote
-            exit 0
+            break
             ;;
         6)
             echo -e "\n[ :3c ] Exiting setup. Goodbye! (=^w^=)/\n"
