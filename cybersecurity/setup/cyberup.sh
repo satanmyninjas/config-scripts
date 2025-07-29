@@ -306,7 +306,7 @@ install_ethical_hacking_environment() {
     echo -e "[ (0_o\") ] You might wanna grab a coffee. This can take a bit...\n"
 
     ESSENTIAL_CORE=(
-    	linux-lts linux-lts-headers grub-btrfs timeshift os-prober archlinux-keyring networkmanager network-manager-applet fail2ban lynis clamav clamtk smartmontools nvme-cli ethtool iw rfkill pciutils inxi dmidecode pacman-contrib pkgfile man-db man
+    	linux-lts linux-lts-headers grub-btrfs timeshift os-prober archlinux-keyring networkmanager network-manager-applet fail2ban lynis clamav clamtk smartmontools nvme-cli ethtool iw rfkill pciutils inxi dmidecode pacman-contrib pkgfile man-db man parallel
     )
 
     BASE_PACKAGES=(
