@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=2.6.3
+VERSION=2.7
 YEAR=$(date +%Y)
 
 LOG_ERRORS=false
