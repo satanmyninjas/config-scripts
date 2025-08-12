@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=2.7.1
+VERSION=2.7.2
 YEAR=$(date +%Y)
 
 LOG_ERRORS=false
@@ -31,11 +31,7 @@ LOG_FILE="$HOME/cyberup-error.log"
 ##     --cleanafter   Auto-clean build cache after install.
 ##     --color=auto   Enable color output if supported.
 ##     --pgpfetch     Auto-fetch missing package signing keys (PGP).
-##
-## AUTHOR
-##     Written by SATANMYNINJAS [DEFCON201] [nyc2600]
 ## ----------------------------------------------------------------------------
-
 export PACMAN_FLAGS="--needed --color=auto --noconfirm"
 export YAY_FLAGS="--needed --noconfirm --batchinstall --removemake --cleanafter --color=auto --pgpfetch"
 
@@ -53,7 +49,6 @@ export YAY_FLAGS="--needed --noconfirm --batchinstall --removemake --cleanafter 
 ## AUTHOR
 ##     Written by SATANMYNINJAS [DEFCON201] [nyc2600]
 ## ----------------------------------------------------------------------------
-
 show_usage() {
     cat << EOF
 
@@ -101,9 +96,7 @@ LICENSE
     MIT License
 
 REPOSITORY
-    https://raw.githubusercontent.com/satanmyninjas/config-scripts/refs/heads/main/cybersecurity/setup/cyberup.sh
-
-real hackers RTFM teehee :3
+    https://github.com/satanmyninjas/config-scripts/blob/main/cybersecurity/setup/cyberup.sh
 
 EOF
 }
@@ -129,9 +122,9 @@ EOF
 ## ----------------------------------------------------------------------------
 log_error() {
     local msg="$1"
-    echo -e "[WARN] $msg"
+    echo "[ WARN ] $msg"
     if [[ "$LOG_ERRORS" == true ]]; then
-        echo "$(date +'%Y-%m-%d %H:%M:%S') [WARN] $msg" >> "$LOG_FILE"
+        echo "$(date +'%Y-%m-%d %H:%M:%S') [ WARN ] $msg" >> "$LOG_FILE"
     fi
 }
 
@@ -150,10 +143,10 @@ log_error() {
 ##     Written by SATANMYNINJAS [DEFCON201] [nyc2600]
 ## ----------------------------------------------------------------------------
 update_cyberup() {
-    echo -e "\n[ BUSY ] Checking for cyberup script updates...\n"
+    echo "[ BUSY ] Checking for cyberup script updates..."
     curl -s -o "$HOME/cyberup.sh" https://raw.githubusercontent.com/satanmyninjas/config-scripts/refs/heads/main/cybersecurity/setup/cyberup.sh
     chmod +x "$HOME/cyberup.sh"
-    echo -e "\n[ :3 ] cyberup updated! Run it with:\n"
+    echo "[ :3 ] cyberup updated! Run it with:"
     echo "bash ~/cyberup.sh"
     exit 0
 }
@@ -237,10 +230,10 @@ check_yay() {
         case "$choice" in
             y|Y )
                 if [ -x "/tmp/yay" ]; then
-                    echo -e "\n[ BUSY ] Using yay from /tmp.\n"
+                    echo -e "[ BUSY ] Using yay from /tmp."
                     YAY_CMD="/tmp/yay"
                 else
-                    log_error "\n[ :( ] yay not found in /tmp either. Please install yay manually first.\n"
+                    log_error "[ :( ] yay not found in /tmp either. Please install yay manually first."
                     exit 1
                 fi
                 ;;
@@ -266,12 +259,11 @@ check_yay() {
 ## AUTHOR
 ##     Written by SATANMYNINJAS [DEFCON201] [nyc2600]
 ## ----------------------------------------------------------------------------
-
 install_blackarch_keyring() {
-    echo -e "\n[ BUSY ] Setting up BlackArch keyring and downloading bootstrap...\n"
+    echo "[ BUSY ] Setting up BlackArch keyring and downloading bootstrap..."
     curl -O https://blackarch.org/strap.sh
 
-    echo -e "\n[ BUSY ] Adding execute permissions to strap.sh file...\n"
+    echo "[ BUSY ] Adding execute permissions to strap.sh file..."
     chmod +x strap.sh
     sudo ./strap.sh
 
@@ -281,8 +273,8 @@ install_blackarch_keyring() {
     echo "[ BUSY ] Updating package databases..."
     sudo pacman -Syu $PACMAN_FLAGS
 
-    echo -e "\n[ :3 ] BlackArch keyring setup complete!"
-    echo -e "[ BUSY ] Cleaning up and removing strap.sh...\n"
+    echo "[ :3 ] BlackArch keyring setup complete!"
+    echo "[ BUSY ] Cleaning up and removing strap.sh..."
     rm strap.sh
 }
 
@@ -304,8 +296,8 @@ install_blackarch_keyring() {
 ## ----------------------------------------------------------------------------
 
 install_ethical_hacking_environment() {
-    echo -e "\n[ BUSY ] Installing ethical hacking environment..."
-    echo -e "[ (0_o\") ] You might wanna grab a coffee. This can take a bit...\n"
+    echo "[ BUSY ] Installing ethical hacking environment..."
+    echo "[ (0_o\") ] You might wanna grab a coffee. This can take a bit..."
 
     ESSENTIAL_CORE=(
     	linux-lts linux-lts-headers grub-btrfs timeshift os-prober archlinux-keyring networkmanager network-manager-applet fail2ban lynis clamav clamtk smartmontools nvme-cli ethtool iw rfkill pciutils inxi dmidecode pacman-contrib pkgfile man-db man
@@ -367,12 +359,12 @@ install_ethical_hacking_environment() {
         7zip arp-scan arpwatch atftp axel bettercap binwalk bluez bully cabextract cadaver capstone cherrytree chntpw cilium-cli clamav cosign cowpatty curlftpfs darkstat dbeaver ddrescue dos2unix dsniff eksctl ettercap expect exploitdb ext3grep fcrackzip findomain flashrom foremost fping freeradius ghidra git gitleaks gnu-netcat gnuradio gpart gparted gptfdisk gsocket hackrf hashcat hashcat-utils hcxtools hurl hydra impacket inspectrum libpst lynis masscan mc nasm nbtscan ncrack netscanner openvpn p0f pdfcrack pixiewps python-pipx python-virtualenv radare2 rarcrack routersploit ruby-rake seclists skipfish smbclient smtp-user-enum snmpcheck splint sqlite sqlmap ssldump sslscan steghide tcpdump testdisk thc-ipv6 tor traceroute unicornscan wafw00f wireshark-qt wpscan zaproxy zim zsh-autosuggestions zsh-syntax-highlighting lvm2 nfs-utils 0trace above aesfix aeskeyfind afflib airgeddon altdns amap amass apache-users arjun armitage asleap assetfinder autopsy autorecon bed bettercap-ui bing-ip2hosts bloodhound bloodyad blue-hydra bluelog blueranger bluesnarfer braa bruteforce-luks bruteforce-salted-openssl bruteforce-wallet brutespray btscanner bulk-extractor burpsuite bytecode-viewer certgraph certi cewl chainsaw chisel cisco-torch cookie-cadger crackmapexec crowbar cuckoo cutter darkdump dcfldd det dirb dirbuster dnsenum dnsmap dnsrecon dnstracer doona eapmd5pass edb-debugger enum4linux-ng enumiax fern-wifi-cracker fierce flawfinder fs-nyarl ghost-phisher goofile gospider gqrx hash-identifier haystack hexinject httprint intersect inurlbr johnny killerbee kismet legion linux-exploit-suggester mac-robber magicrescue maltego maryam maskprocessor massdns mdbtools memdump metagoofil mfcuk mimikatz missidentify mitm6 multimac myrescue naabu netdiscover netexec netmask netsed nextnet nishang nuclei o-saft ohrwurm ollydbg onesixtyone oscanner osrframework outguess pack pacu padbuster paros parsero pasco passdetective patator payloadsallthethings pdf-parser pdfid perl-cisco-copyconfig phishery photon pip3line pkt2flow plecost polenum powerfuzzer proxmark3 pwnat pyrit rainbowcrack rcracki_mt rsmangler rtpbreak sakis3g set shellnoob siparmyknife skiptracer sn0int sparta spooftooph sqlninja sqlsus sslcaudit sslsplit sublist3r termineter thc-pptp-bruter tlssled twofi u3-pwn unicornscan vega veil villain vinetto vlan voiphopper wafw00f wapiti wce webacoo webscarab webshells weevely wfuzz whatweb wifi-honey wifiphisher wig windows-binaries windows-privesc-check winregfs xplico
     )
 
-    echo -e "\n[ BUSY ] Updating keyring first...\n"
+    echo "[ BUSY ] Updating keyring first..."
     sudo pacman -Sy $PACMAN_FLAGS archlinux-keyring
 
 
     if ! command -v reflector >/dev/null 2>&1; then
-        echo -e "\n[ :( ] Reflector not found. Installing...\n"
+        echo "[ :( ] Reflector not found. Installing..."
         sudo pacman -S $PACMAN_FLAGS reflector
     fi
 
@@ -380,39 +372,39 @@ install_ethical_hacking_environment() {
     read -rp "[ ? ] Do you want to refresh your Arch mirrors with the fastest mirrors for your region? [y/N] " refresh_mirrors
 
     if [[ "$refresh_mirrors" =~ ^[Yy]$ ]]; then
-        echo -e "\n[ BUSY ] Determining your country for optimal mirrors...\n"
+        echo "[ BUSY ] Determining your country for optimal mirrors..."
 
         # Auto-detect country code using ipinfo.io or fallback to US
         user_country=$(curl -s https://ipinfo.io/country || echo "US")
         user_country=${user_country//[$'\t\r\n']}  # Trim whitespace
 
-        echo -e "\n[ :3 ] Detected country: $user_country\n"
+        echo "[ :3 ] Detected country: $user_country"
 
-        echo -e "\n[ BUSY ] Backing up current mirrorlist...\n"
+        echo "[ BUSY ] Backing up current mirrorlist..."
         sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak.$(date +%Y%m%d)
 
-        echo -e "\n[ BUSY ] Sorting fresh Arch mirrors...\n"
+        echo "[ BUSY ] Sorting fresh Arch mirrors..."
         sudo reflector -p https -c "$user_country" --sort rate --verbose --save /etc/pacman.d/mirrorlist
 
-        echo -e "\n[ :3 ] Done sorting mirrors for region: $user_country\n"
+        echo "[ :3 ] Done sorting mirrors for region: $user_country"
     else
-        echo -e "\n[ BUSY ] Skipping mirrorlist refresh...\n"
+        echo "[ BUSY ] Skipping mirrorlist refresh..."
     fi
 
-    echo -e "\n[ BUSY ] Refreshing pacman database...\n"
+    echo "[ BUSY ] Refreshing pacman database..."
     sudo pacman -Sy $PACMAN_FLAGS
 
-    echo -e "\n[ BUSY ] Refreshing Arch package keys...\n"
+    echo "[ BUSY ] Refreshing Arch package keys..."
     sudo pacman-key --refresh-keys
 
-    echo -e "\n[ BUSY ] Refreshing yay PGP keys (AUR)...\n"
+    echo "[ BUSY ] Refreshing yay PGP keys (AUR)..."
     $YAY_CMD --devel --pgpfetch
 
-    echo -e "\n[ BUSY ] Cleaning yay build cache...\n"
+    echo "[ BUSY ] Cleaning yay build cache..."
     $YAY_CMD -Sc --noconfirm
 
     # Install necessary packages.
-    echo -e "\n[ BUSY ] Installing a fuckload of packages...\n"
+    echo "[ BUSY ] Installing a fuckload of packages..."
 
     # Install all categorized packages (inline for clarity)
     sudo pacman -S $PACMAN_FLAGS \
@@ -430,21 +422,21 @@ install_ethical_hacking_environment() {
         "${EXTRAS[@]}" \
         "${FONTS_THEMES[@]}" \
         "${KALI_TOOLS_EXTRACTED[@]}"
-    echo -e "\n[ :3 ] Holy fuck it finished.\n"
+    echo "[ :3 ] Holy fuck it finished."
 
     # Check yay availability.
     check_yay
 
     # Begin package installation and update logic using $YAY_CMD.
-    echo -e "\n[ BUSY ] Installing AUR packages...\n"
+    echo "[ BUSY ] Installing AUR packages..."
     $YAY_CMD -Syu $YAY_FLAGS "${AUR_PACKAGES[@]}"
-    echo -e "\n[ :3 ] Done installing all AUR packages.\n"
+    echo "[ :3 ] Done installing all AUR packages."
 
-    echo -e "\n[ BUSY ] Updating system...\n"
+    echo "[ BUSY ] Updating system..."
     sudo pacman -Syu $PACMAN_FLAGS
-    echo -e "\n[ :3 ] Done updating system.\n"
+    echo "[ :3 ] Done updating system."
 
-    echo -e "\n[ :3c ] Ethical hacking environment setup complete!\n"
+    echo "[ :3c ] Ethical hacking environment setup complete!"
 }
 
 ## ----------------------------------------------------------------------------
@@ -461,7 +453,6 @@ install_ethical_hacking_environment() {
 ## AUTHOR
 ##     Written by SATANMYNINJAS [DEFCON201] [nyc2600]
 ## ----------------------------------------------------------------------------
-
 display_ASCII_header() {
 
     echo -e "\n\n"
@@ -500,14 +491,13 @@ print_hacker_quote() {
         " <theplague> there is no right and wrong. there's only fun and boring."
         " <ZeroCool> mess with the best, die like the rest."
         " <CerealKiller> FYI man, you could sit at home, do absolutely nothing, and your name goes through like 17 computers a day."
-        " <Razor> remember, hacking is more than just a crime. it's a survival trait."
-        " <AgentBob> 'this is our world now. the world of the electron and the switch...' (The Hacker's Manifesto)"
-        " <LordNikon> you're in the butter zone now, baby."
-        " <AcidBurn> never send a boy to do a woman's job."
-        " <CerealKiller> spandex: it's a privilege, not a right."
-        " <ZeroCool> HACK THE PLANET!!!"
-        " <CerealKiller> we have no names, man. no names. we are nameless!"
-	" <linus_t0rv41ds> talk is cheap. show me the code."
+        " <R4Z0R> remember, hacking is more than just a crime. it's a survival trait."
+        " <L07DN1K0N> you're in the butter zone now, baby."
+        " <4C1DBU7N> never send a boy to do a woman's job."
+        " <C3734LK1LL37> spandex: it's a privilege, not a right."
+        " <Z370C001> HACK THE PLANET!!!"
+        " <C3734K1LL37> we have no names, man. no names. we are nameless!"
+	" <linus_t0rv41d5> talk is cheap. show me the code."
 	" <edsgar_d1kstr4> testing shows the presence, not the absence of bugs."
 	" <WH1T3R0S3> every hacker has her fixation. you hack people. i hack time."
 	" <WH1T3R0S3> the concept of waiting bewilders me. there are always deadlines. there are always ticking clocks."
@@ -518,6 +508,8 @@ print_hacker_quote() {
 	" <samsepi0l> a bug is never just a mistake. it represents something bigger. an error of thinking that makes you who you are."
 	" <mr_r0b0t> are you a one or a zero? that's the question you have to ask yourself. are you a yes or a no? are you going to act or not?"
 	" <g30rg3_c4rr3t3> first learn computer science and all the theory. next develop a programming style. then forget all that and just hack."
+	" <TH3_M3NT0R> yes, i am a criminal.  my crime is that of curiosity.  my crime is that of judging people by what they say and think, not what they look like. my crime is that of outsmarting you, something that you will never forgive me for."
+	" <TH3_M3NT0R> you may stop this indivdual, but you can't stop us all...after all, we're all alike."
     )
     local count=${#quotes[@]}
     local random_index=$(( RANDOM % count ))
@@ -526,7 +518,7 @@ print_hacker_quote() {
 
 # Check if script runs as root; exit if true.
 if [ "$EUID" -eq 0 ]; then
-    echo "[ :( ] Do not run this script as root. Please run as a regular user. Exiting shell script...\n"
+    echo -e "[ :( ] Do not run this script as root. Please run as a regular user. Exiting shell script...\n"
     exit 1
 fi
 
@@ -606,12 +598,12 @@ while true; do
             ;;
         4)
             show_usage
-            break
+	    break
             ;;
         5)
             echo "  [ :3 ] Here's some wisdom for today..."
             print_hacker_quote
-            break
+	    break
             ;;
         6)
             echo -e "\n  [ :3c ] Exiting setup. Goodbye! (=^w^=)/\n"
@@ -623,3 +615,4 @@ while true; do
             ;;
     esac
 done
+
