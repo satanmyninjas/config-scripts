@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=2.7.3
+VERSION=2.8
 YEAR=$(date +%Y)
 
 LOG_ERRORS=false
@@ -304,7 +304,7 @@ install_ethical_hacking_environment() {
     )
 
     BASE_PACKAGES=(
-        base-devel git wget curl unzip zip p7zip htop neofetch tmux fish fzf fd ripgrep btop binutils nasm testdisk iputils traceroute bind reflector screen
+        base-devel git wget curl unzip zip p7zip htop btop tmux fish fzf fd ripgrep btop binutils nasm testdisk iputils traceroute bind reflector screen
     )
 
     DEV_TOOLS=(
@@ -312,7 +312,7 @@ install_ethical_hacking_environment() {
     )
 
     CYBERSEC_TOOLS=(
-        metasploit nmap wireshark-qt john hydra sqlmap nikto aircrack-ng impacket whois gnu-netcat
+        metasploit nmap wireshark-qt john hydra sqlmap nikto aircrack-ng impacket whois
     )
 
     REVERSE_TOOLS=(
@@ -332,7 +332,7 @@ install_ethical_hacking_environment() {
     )
 
     VIRTUALIZATION_TOOLS=(
-        qemu-full libvirt virt-manager docker docker-compose virtualbox virtualbox-host-modules-arch vagrant edk2-ovmf
+        qemu-full libvirt virt-manager docker docker-compose virtualbox virtualbox-host-modules-arch edk2-ovmf
     )
 
     SECURITY_PRIVACY=(
@@ -352,7 +352,7 @@ install_ethical_hacking_environment() {
     )
 
     AUR_PACKAGES=(
-        downgrade gophish mullvad-vpn sddm-lain-wired-theme discord_arch_electron wordlists social-engineer-toolkit spiderfoot burpsuite recon-ng dnsprobe chkrootkit autopsy gobuster zenmap responder retdec extundelete guymager crunch sherlock-git phoneinfoga-bin osintgram dcfldd simplescreenrecorder binaryninja-free zoom otf-monocraft mkinitcpio-firmware powershell beef-xss ccrypt chirp-next code-translucent cutecom dumpsterdiver-git exploitdb-bin-sploits-git exploitdb-papers-git extundelete fatcat ferret-sidejack gr-osmosdr-git gss-ntlmssp gtkhash hamster-sidejack havoc hubble-bin hyperion.ng-git instaloader joplin libfreefare-git merlin miredo nmapsi4 ophcrack owl peass-ng pocsuite3 powershell powershell-empire python-ldapdomaindump readpe rephrase robotstxt sendemail sliver sparrow-wifi-git spire-bin swaks tightvnc tnscmd10g vboot-utils vopono waybackpy whatmask wifipumpkin3-git wordlists xmount zerofree whatweb seclists
+        downgrade gophish mullvad-vpn sddm-lain-wired-theme discord_arch_electron wordlists social-engineer-toolkit spiderfoot burpsuite recon-ng dnsprobe chkrootkit autopsy gobuster zenmap responder retdec extundelete guymager crunch sherlock-git phoneinfoga-bin osintgram dcfldd simplescreenrecorder binaryninja-free zoom otf-monocraft mkinitcpio-firmware powershell beef-xss ccrypt chirp-next code-translucent cutecom dumpsterdiver-git exploitdb-bin-sploits-git exploitdb-papers-git extundelete fatcat ferret-sidejack gr-osmosdr-git gss-ntlmssp gtkhash hamster-sidejack havoc hubble-bin hyperion.ng-git instaloader joplin libfreefare-git merlin miredo nmapsi4 ophcrack owl peass-ng pocsuite3 powershell powershell-empire python-ldapdomaindump readpe rephrase robotstxt sendemail sliver sparrow-wifi-git spire-bin swaks tightvnc tnscmd10g vboot-utils vopono waybackpy whatmask wifipumpkin3-git wordlists xmount zerofree whatweb seclists vagrant
     )
 
     KALI_TOOLS_EXTRACTED=(
@@ -391,18 +391,6 @@ install_ethical_hacking_environment() {
         echo "[ BUSY ] Skipping mirrorlist refresh..."
     fi
 
-    echo "[ BUSY ] Refreshing pacman database..."
-    sudo pacman -Sy $PACMAN_FLAGS
-
-    echo "[ BUSY ] Refreshing Arch package keys..."
-    sudo pacman-key --refresh-keys
-
-    echo "[ BUSY ] Refreshing yay PGP keys (AUR)..."
-    $YAY_CMD --devel --pgpfetch
-
-    echo "[ BUSY ] Cleaning yay build cache..."
-    $YAY_CMD -Sc --noconfirm
-
     # Install necessary packages.
     echo "[ BUSY ] Installing a fuckload of packages..."
 
@@ -429,11 +417,11 @@ install_ethical_hacking_environment() {
 
     # Begin package installation and update logic using $YAY_CMD.
     echo "[ BUSY ] Installing AUR packages..."
-    $YAY_CMD -Syu $YAY_FLAGS "${AUR_PACKAGES[@]}"
+    $YAY_CMD -Syyu $YAY_FLAGS "${AUR_PACKAGES[@]}"
     echo "[ :3 ] Done installing all AUR packages."
 
     echo "[ BUSY ] Updating system..."
-    sudo pacman -Syu $PACMAN_FLAGS
+    sudo pacman -Syyu $PACMAN_FLAGS
     echo "[ :3 ] Done updating system."
 
     echo "[ :3c ] Ethical hacking environment setup complete!"
@@ -497,19 +485,19 @@ print_hacker_quote() {
         " <C3734LK1LL37> spandex: it's a privilege, not a right."
         " <Z370C001> HACK THE PLANET!!!"
         " <C3734K1LL37> we have no names, man. no names. we are nameless!"
-	" <linus_t0rv41d5> talk is cheap. show me the code."
-	" <edsgar_d1kstr4> testing shows the presence, not the absence of bugs."
-	" <WH1T3R0S3> every hacker has her fixation. you hack people. i hack time."
-	" <WH1T3R0S3> the concept of waiting bewilders me. there are always deadlines. there are always ticking clocks."
-	" <samsepi0l> ...there are some people out there, and it doesn't happen a lot. it's rare. but they refuse to let you hate them. in fact, they care about you in spite of it. and the really special ones, they're relentless at it. doesn't matter what you do to them. they take it and care about you anyway. they don't abandon you, no matter how many reasons you give them. no matter how much you're practically begging them to leave. and you wanna know why? because they feel something for me that i can't -- they love me. and for all the pain i've been through, that heals me. maybe not instantly. maybe not even for a long time, but it heals."
-	" <samsepi0l> what if changing the world was just about being here, by showing up no matter how many times we get told we don’t belong, by staying true even when we’re shamed into being false, by believing in ourselves even when we’re told we’re too different? and if we all held on to that, if we refuse to budge and fall in line, if we stood our ground for long enough, just maybe...the world can’t help but change around us."
-	" <mr_r0b0t> exciting times in the world...exciting times."
-	" <L30N> existence could be beautiful,  or it could be ugly. but that's on you."
-	" <samsepi0l> a bug is never just a mistake. it represents something bigger. an error of thinking that makes you who you are."
-	" <mr_r0b0t> are you a one or a zero? that's the question you have to ask yourself. are you a yes or a no? are you going to act or not?"
-	" <g30rg3_c4rr3t3> first learn computer science and all the theory. next develop a programming style. then forget all that and just hack."
-	" <TH3_M3NT0R> yes, i am a criminal.  my crime is that of curiosity.  my crime is that of judging people by what they say and think, not what they look like. my crime is that of outsmarting you, something that you will never forgive me for."
-	" <TH3_M3NT0R> you may stop this indivdual, but you can't stop us all...after all, we're all alike."
+        " <linus_t0rv41d5> talk is cheap. show me the code."
+        " <edsgar_d1kstr4> testing shows the presence, not the absence of bugs."
+        " <WH1T3R0S3> every hacker has her fixation. you hack people. i hack time."
+        " <WH1T3R0S3> the concept of waiting bewilders me. there are always deadlines. there are always ticking clocks."
+        " <samsepi0l> ...there are some people out there, and it doesn't happen a lot. it's rare. but they refuse to let you hate them. in fact, they care about you in spite of it. and the really special ones, they're relentless at it. doesn't matter what you do to them. they take it and care about you anyway. they don't abandon you, no matter how many reasons you give them. no matter how much you're practically begging them to leave. and you wanna know why? because they feel something for me that i can't -- they love me. and for all the pain i've been through, that heals me. maybe not instantly. maybe not even for a long time, but it heals."
+        " <samsepi0l> what if changing the world was just about being here, by showing up no matter how many times we get told we don’t belong, by staying true even when we’re shamed into being false, by believing in ourselves even when we’re told we’re too different? and if we all held on to that, if we refuse to budge and fall in line, if we stood our ground for long enough, just maybe...the world can’t help but change around us."
+        " <mr_r0b0t> exciting times in the world...exciting times."
+        " <L30N> existence could be beautiful,  or it could be ugly. but that's on you."
+        " <samsepi0l> a bug is never just a mistake. it represents something bigger. an error of thinking that makes you who you are."
+        " <mr_r0b0t> are you a one or a zero? that's the question you have to ask yourself. are you a yes or a no? are you going to act or not?"
+        " <g30rg3_c4rr3t3> first learn computer science and all the theory. next develop a programming style. then forget all that and just hack."
+        " <TH3_M3NT0R> yes, i am a criminal.  my crime is that of curiosity.  my crime is that of judging people by what they say and think, not what they look like. my crime is that of outsmarting you, something that you will never forgive me for."
+        " <TH3_M3NT0R> you may stop this indivdual, but you can't stop us all...after all, we're all alike."
     )
     local count=${#quotes[@]}
     local random_index=$(( RANDOM % count ))
