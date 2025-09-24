@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=2.7.2
+VERSION=2.7.3
 YEAR=$(date +%Y)
 
 LOG_ERRORS=false
@@ -359,8 +359,8 @@ install_ethical_hacking_environment() {
         7zip arp-scan arpwatch atftp axel bettercap binwalk bluez bully cabextract cadaver capstone cherrytree chntpw cilium-cli clamav cosign cowpatty curlftpfs darkstat dbeaver ddrescue dos2unix dsniff eksctl ettercap expect exploitdb ext3grep fcrackzip findomain flashrom foremost fping freeradius ghidra git gitleaks gnu-netcat gnuradio gpart gparted gptfdisk gsocket hackrf hashcat hashcat-utils hcxtools hurl hydra impacket inspectrum libpst lynis masscan mc nasm nbtscan ncrack netscanner openvpn p0f pdfcrack pixiewps python-pipx python-virtualenv radare2 rarcrack routersploit ruby-rake seclists skipfish smbclient smtp-user-enum snmpcheck splint sqlite sqlmap ssldump sslscan steghide tcpdump testdisk thc-ipv6 tor traceroute unicornscan wafw00f wireshark-qt wpscan zaproxy zim zsh-autosuggestions zsh-syntax-highlighting lvm2 nfs-utils 0trace above aesfix aeskeyfind afflib airgeddon altdns amap amass apache-users arjun armitage asleap assetfinder autopsy autorecon bed bettercap-ui bing-ip2hosts bloodhound bloodyad blue-hydra bluelog blueranger bluesnarfer braa bruteforce-luks bruteforce-salted-openssl bruteforce-wallet brutespray btscanner bulk-extractor burpsuite bytecode-viewer certgraph certi cewl chainsaw chisel cisco-torch cookie-cadger crackmapexec crowbar cuckoo cutter darkdump dcfldd det dirb dirbuster dnsenum dnsmap dnsrecon dnstracer doona eapmd5pass edb-debugger enum4linux-ng enumiax fern-wifi-cracker fierce flawfinder fs-nyarl ghost-phisher goofile gospider gqrx hash-identifier haystack hexinject httprint intersect inurlbr johnny killerbee kismet legion linux-exploit-suggester mac-robber magicrescue maltego maryam maskprocessor massdns mdbtools memdump metagoofil mfcuk mimikatz missidentify mitm6 multimac myrescue naabu netdiscover netexec netmask netsed nextnet nishang nuclei o-saft ohrwurm ollydbg onesixtyone oscanner osrframework outguess pack pacu padbuster paros parsero pasco passdetective patator payloadsallthethings pdf-parser pdfid perl-cisco-copyconfig phishery photon pip3line pkt2flow plecost polenum powerfuzzer proxmark3 pwnat pyrit rainbowcrack rcracki_mt rsmangler rtpbreak sakis3g set shellnoob siparmyknife skiptracer sn0int sparta spooftooph sqlninja sqlsus sslcaudit sslsplit sublist3r termineter thc-pptp-bruter tlssled twofi u3-pwn unicornscan vega veil villain vinetto vlan voiphopper wafw00f wapiti wce webacoo webscarab webshells weevely wfuzz whatweb wifi-honey wifiphisher wig windows-binaries windows-privesc-check winregfs xplico
     )
 
-    echo "[ BUSY ] Updating keyring first..."
-    sudo pacman -Sy $PACMAN_FLAGS archlinux-keyring
+    echo "[ BUSY ] Updating keyring and databases first..."
+    sudo pacman -Syy $PACMAN_FLAGS archlinux-keyring
 
 
     if ! command -v reflector >/dev/null 2>&1; then
